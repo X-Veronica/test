@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vocabulary Matching Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> <!-- 允许用户缩放 -->
+    <title>Intermediate Week3-4</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,7 +66,7 @@
 <body>
     <div class="header">
         <h1 id="dateHeading"></h1>
-        <div id="timer">04:00</div>
+        <div id="timer">05:00</div>
         <input type="text" id="studentName" placeholder="Enter your name">
     </div>
     <div class="container">
@@ -76,42 +77,36 @@
 
     <script>
         const vocabulary = [
-            { word: "unavoidable", definition: "impossible to prevent or avoid" },
-            { word: "inducing", definition: "causing or bringing about" },
-            { word: "ritual", definition: "a religious or solemn ceremony consisting of a series of actions performed according to a prescribed order" },
-            { word: "elaborate", definition: "involving many carefully arranged parts or details" },
-            { word: "anxiety", definition: "a feeling of worry, nervousness, or unease" },
-            { word: "competition", definition: "the activity or condition of striving to gain or win something by defeating or establishing superiority over others" },
-            { word: "phenomenon", definition: "a fact or situation that is observed to exist or happen" },
-            { word: "grief", definition: "deep sorrow, especially that caused by someone's death" },
-            { word: "mourning", definition: "the expression of deep sorrow for someone who has died" },
-            { word: "endangered", definition: "(of a species) seriously at risk of extinction" },
-            { word: "alleviate", definition: "make (suffering, deficiency, or a problem) less severe" },
-            { word: "scenario", definition: "a written outline of a film, novel, or stage work giving details of the plot and individual scenes" },
-            { word: "navigate", definition: "to find one's way; to travel over (a route or area)" },
-            { word: "migrate", definition: "(of an animal or bird) move from one habitat to another in search of food, water, or a more favorable climate" },
-            { word: "habitat", definition: "the natural home or environment of an animal, plant, or other organism" },
-            { word: "hypothesize", definition: "advance as a tentative explanation" },
-            { word: "unevenly", definition: "not level or equal" },
-            { word: "distributed", definition: "to spread or scatter" },
-            { word: "orientation", definition: "the action of positioning someone or something relative to the points of the compass or other specified positions" },
-            { word: "mimic", definition: "imitate (someone or their actions or words), typically in order to entertain or ridicule" },
-            { word: "current", definition: "a body of water or air moving in a definite direction" },
-            { word: "confirm", definition: "establish or strengthen as being true or valid" },
-            { word: "invisible", definition: "unable to be seen" },
-            { word: "element", definition: "a part or aspect of something" },
+            { word: "landscape", definition: "the visible features of an area of land" },
+            { word: "strategic", definition: "carefully planned to achieve a particular goal" },
+            { word: "shelter", definition: "a place giving temporary protection from bad weather or danger" },
+            { word: "trace", definition: "signs or evidence of something that has been present" },
+            { word: "struggle", definition: "a forceful or violent attempt to get free of restraint or resist attack" },
+            { word: "stumble", definition: "to hit your foot against something while you are walking or running and almost fall" },
+            { word: "thrive", definition: "grow or develop well or vigorously" },
+            { word: "dwelling", definition: "a house, apartment, or other place of residence" },
+            { word: "rim", definition: "the edge or border of something, especially a circular one" },
+            { word: "inhibit", definition: "to hinder or restrain" },
+            { word: "priority", definition: "a thing that is regarded as more important than another" },
+            { word: "compromise", definition: "to weaken or impair" },
+            { word: "conjunction", definition: "a combination or association" },
+            { word: "compound", definition: "a substance formed by a chemical union of two or more elements" },
+            { word: "accelerate", definition: "to increase the rate or speed of something" },
+            { word: "optimistic", definition: "hopeful and confident about the future" },
+            { word: "dose", definition: "a quantity of a medicine or drug taken or to be taken at a particular time" },
+            { word: "artificial", definition: "made or produced by human beings rather than occurring naturally" },
         ];
 
         let selectedWord = null;
         let matchedPairs = new Map(); // 存储匹配的单词和释义
         let startTime;
         let timerInterval;
-        const totalTime = 240; // 4分钟倒计时
+        const totalTime = 300; // 5分钟倒计时
         let remainingTime = totalTime;
 
         function initQuiz() {
             startTime = new Date();
-            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' 单词匹配练习';
+            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Intermediate week3-4';
 
             // 随机选择15个单词和15个对应的释义
             const selectedWords = shuffleArray(vocabulary).slice(0, 15);
@@ -119,9 +114,9 @@
 
             // 随机选择5个干扰项
             const extraDefinitions = shuffleArray(vocabulary)
-                .filter(item => !correctDefinitions.includes(item.definition))
-                .slice(0, 5)
-                .map(item => item.definition);
+               .filter(item => !correctDefinitions.includes(item.definition))
+               .slice(0, 5)
+               .map(item => item.definition);
 
             // 合并所有释义（15个正确 + 5个干扰项）
             const allDefinitions = shuffleArray([...correctDefinitions, ...extraDefinitions]);
@@ -161,6 +156,7 @@
         }
 
         function handleWordDoubleClick(e) {
+            e.preventDefault(); // 阻止默认的双击缩放行为
             const word = e.target;
             if (word.classList.contains('matched')) {
                 // 取消匹配
@@ -203,6 +199,13 @@
         }
 
         function submitQuiz() {
+            // 检查姓名框是否为空
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('请输入你的姓名！');
+                return; // 如果姓名为空，停止提交
+            }
+
             const endTime = new Date();
             const timeDiff = (endTime - startTime) / 1000;
             const minutes = Math.floor(timeDiff / 60);
@@ -220,8 +223,13 @@
 
             const accuracy = (correctCount / 15) * 100;
 
-            const result = `学生姓名: ${document.getElementById('studentName').value || '未填写'}
+            const submitTime = endTime.toLocaleString();
+            const pageTitle = document.title;
+
+            const result = `学生姓名: ${studentName}
             完成时间: ${minutes}分${seconds}秒
+            提交时间: ${submitTime}
+            网页标题: ${pageTitle}
             正确率: ${accuracy.toFixed(2)}%
             错误记录: ${errors.join('\n') || '无'}`;
 
@@ -237,7 +245,7 @@
 
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
-                    submitQuiz();
+                    submitQuiz(); // 倒计时结束时自动提交
                 }
             }, 1000);
         }
