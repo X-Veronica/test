@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> <!-- 允许用户缩放 -->
-    <title>Intermediate week3-4</title>
+    <title>Vocabulary Matching Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -110,7 +110,7 @@
 
         function initQuiz() {
             startTime = new Date();
-            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' upperintermediate week3-4';
+            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Upperintermediate week3-4';
 
             // 随机选择15个单词和15个对应的释义
             const selectedWords = shuffleArray(vocabulary).slice(0, 15);
@@ -118,9 +118,9 @@
 
             // 随机选择5个干扰项
             const extraDefinitions = shuffleArray(vocabulary)
-                .filter(item => !correctDefinitions.includes(item.definition))
-                .slice(0, 5)
-                .map(item => item.definition);
+               .filter(item => !correctDefinitions.includes(item.definition))
+               .slice(0, 5)
+               .map(item => item.definition);
 
             // 合并所有释义（15个正确 + 5个干扰项）
             const allDefinitions = shuffleArray([...correctDefinitions, ...extraDefinitions]);
@@ -203,6 +203,13 @@
         }
 
         function submitQuiz() {
+            // 检查姓名框是否为空
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('请输入你的姓名！');
+                return; // 如果姓名为空，停止提交
+            }
+
             const endTime = new Date();
             const timeDiff = (endTime - startTime) / 1000;
             const minutes = Math.floor(timeDiff / 60);
@@ -220,8 +227,13 @@
 
             const accuracy = (correctCount / 15) * 100;
 
-            const result = `学生姓名: ${document.getElementById('studentName').value || '未填写'}
+            const submitTime = endTime.toLocaleString();
+            const pageTitle = document.title;
+
+            const result = `学生姓名: ${studentName}
             完成时间: ${minutes}分${seconds}秒
+            提交时间: ${submitTime}
+            网页标题: ${pageTitle}
             正确率: ${accuracy.toFixed(2)}%
             错误记录: ${errors.join('\n') || '无'}`;
 
@@ -237,7 +249,7 @@
 
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
-                    submitQuiz();
+                    submitQuiz(); // 倒计时结束时自动提交
                 }
             }, 1000);
         }
