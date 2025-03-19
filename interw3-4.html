@@ -228,7 +228,13 @@
 
             const accuracy = (correctCount / 15) * 100;
 
+            const pageTitle = document.title;
+
+            const submitTime = endTime.toLocaleString();
+            
             const result = `学生姓名: ${studentName}
+            提交时间: ${submitTime}
+            学生姓名: ${studentName}
             完成时间: ${minutes}分${seconds}秒
             正确率: ${accuracy.toFixed(2)}%
             错误记录: ${errors.join('\n') || '无'}`;
