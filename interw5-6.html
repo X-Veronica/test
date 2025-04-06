@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> <!-- 允许用户缩放 -->
-    <title>Intermediate Week3-4</title>
+    <title>Intermediate Week5-6</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,29 +77,27 @@
 
     <script>
         const vocabulary = [
-            { word: "unavoidable", definition: "(adj.) impossible to prevent or avoid." },
-            { word: "inducing", definition: "(adj.) causing or bringing about." },
-            { word: "ritual", definition: "(n.) a religious or solemn ceremony consisting of a series of actions performed according to a prescribed order." },
-            { word: "elaborate", definition: "(adj.) involving many carefully arranged parts or details; detailed and complicated in design and planning." },
-            { word: "anxiety", definition: "(n.) a feeling of worry, nervousness, or unease, typically about an imminent event or something with an uncertain outcome." },
-            { word: "competition", definition: "(n.) the activity or condition of striving to gain or win something by defeating or establishing superiority over others." },
-            { word: "phenomenon", definition: "(n.) a fact or situation that is observed to exist or happen, especially one whose cause or explanation is in question." },
-            { word: "grief", definition: "(n.) deep sorrow, especially that caused by someone's death." },
-            { word: "alleviate", definition: "(v.) make (suffering, deficiency, or a problem) less severe." },
-            { word: "scenario", definition: "(n.) a written outline of a film, novel, or stage work giving details of the plot and individual scenes." },
-            { word: "navigate", definition: "(v.) to find one's way; to travel over (a route or area)." },
-            { word: "migrate", definition: "(v.) (of an animal or bird) move from one habitat to another in search of food, water, or a more favorable climate." },
-            { word: "habitat", definition: "(n.) the natural home or environment of an animal, plant, or other organism." },
-            { word: "hypothesize", definition: "(v.) advance as a tentative explanation." },
-            { word: "magnetic field", definition: "(n.) a region around a magnetic material or a moving electric charge within which the force of magnetism acts." },
-            { word: "unevenly", definition: "(adv.) not level or equal." },
-            { word: "distribute", definition: "(v.) to spread or scatter." },
-            { word: "orientation", definition: "(n.) the action of positioning someone or something relative to the points of the compass or other specified positions." },
-            { word: "mimic", definition: "(v.) imitate (someone or their actions or words), typically in order to entertain or ridicule." },
-            { word: "current", definition: "(n.) a body of water or air moving in a definite direction." },
-            { word: "confirm", definition: "(v.) establish or strengthen as being true or valid." },
-            { word: "invisible", definition: "(adj.) unable to be seen." },
-            { word: "element", definition: "(n.) a part or aspect of something." },
+            { word: "coin", definition: "(v.) invent a new word or phrase" },
+            { word: "transition", definition: "(v.) changed from one state to another" },
+            { word: "misleading", definition: "(adj.) giving a wrong impression" },
+            { word: "flammable", definition: "(adj.) able to catch fire easily" },
+            { word: "pollutant", definition: "(n.) substances that cause pollution" },
+            { word: "generate", definition: "(v.) produced or created" },
+            { word: "drawbacks", definition: "(n.) disadvantages" },
+            { word: "primarily", definition: "(adv.) mainly" },
+            { word: "release", definition: "(v.) allow to escape or go free" },
+            { word: "emission", definition: "(n.) substances discharged into the air" },
+            { word: "extraction", definition: "(n.) the process of taking something out" },
+            { word: "transportation", definition: "(n.) the process of moving something from one place to another" },
+            { word: "livestock", definition: "(n.) farm animals" },
+            { word: "digestive", definition: "(adj.) relating to the process of digesting food" },
+            { word: "dissipate", definition: "(v.) disappear or fade away" },
+            { word: "stall", definition: "(v.) to stop or delay the progress of something" },
+            { word: "boost", definition: "(v.) increase or improve" },
+            { word: "nod off", definition: "(v.) fall asleep briefly" },
+            { word: "consciousness", definition: "(n.) the state of being aware" },
+            { word: "swear by", definition: "(v.) believe strongly in" },
+            { word: "novel", definition: "(adj.) new or unusual" },
         ];
 
         let selectedWord = null;
@@ -111,7 +109,7 @@
 
         function initQuiz() {
             startTime = new Date();
-            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Intermediate week3-4';
+            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Intermediate week5-6';
 
             // 随机选择15个单词和15个对应的释义
             const selectedWords = shuffleArray(vocabulary).slice(0, 15);
