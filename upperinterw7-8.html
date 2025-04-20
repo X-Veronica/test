@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> <!-- 允许用户缩放 -->
-    <title>Upperintermediate Week3-4</title>
+    <title>Upperintermediate Week7-8</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,24 +77,25 @@
 
     <script>
         const vocabulary = [
-            { word: "landscape", definition: "(n.) the visible features of an area of land" },
-            { word: "strategic", definition: "(adj.) carefully planned to achieve a particular goal." },
-            { word: "shelter", definition: "(n.) a place giving temporary protection from bad weather or danger." },
-            { word: "trace", definition: "(n.) signs or evidence of something that has been present." },
-            { word: "struggle", definition: "(n.) a forceful or violent attempt to get free of restraint or resist attack. Also can mean a difficult effort." },
-            { word: "stumble", definition: "(v.) to hit your foot against something while you are walking or running and almost fall." },
-            { word: "thrive", definition: "(v.) grow or develop well or vigorously." },
-            { word: "dwelling", definition: "(n.) a house, apartment, or other place of residence." },
-            { word: "rim", definition: "(n.) the edge or border of something, especially a circular one." },
-            { word: "inhibit", definition: "(v.) to hinder or restrain." },
-            { word: "priority", definition: "(n.) a thing that is regarded as more important than another." },
-            { word: "compromise", definition: "(v.) to weaken or impair." },
-            { word: "conjunction", definition: "(n.) a combination or association." },
-            { word: "compound", definition: "(n.) a substance formed by a chemical union of two or more elements." },
-            { word: "accelerate", definition: "(v.) to increase the rate or speed of something." },
-            { word: "optimistic", definition: "(adj.) hopeful and confident about the future." },
-            { word: "dose", definition: "(n.) a quantity of a medicine or drug taken or to be taken at a particular time." },
-            { word: "artificial", definition: "(adj.) made or produced by human beings rather than occurring naturally." },
+            { word: "viral", definition: "(adj.) becoming rapidly and widely known or shared on the internet." },
+            { word: "apparel", definition: "(n.) clothing." },
+            { word: "sentiment", definition: "(n.) a feeling or emotion." },
+            { word: "curator", definition: "(n.) a keeper or custodian of a museum or other collection." },
+            { word: "exquisite", definition: "(adj.) extremely beautiful and, typically, delicate." },
+            { word: "upscale", definition: "(adj.) relatively expensive and designed to appeal to affluent consumers." },
+            { word: "faux-pas", definition: "(n.) an embarrassing or tactless act or remark in a social situation." },
+            { word: "patriotic", definition: "(adj.) having or expressing devotion to and vigorous support for one's country." },
+            { word: "champion", definition: "(v.) to support or defend." },
+            { word: "majestic", definition: "(adj.) having or showing impressive beauty or dignity." },
+            { word: "dub", definition: "(v.) to give an unofficial name or nickname to." },
+            { word: "synonymous", definition: "(adj.) closely associated with or suggestive of something." },
+            { word: "flourish", definition: "(v.) to grow or develop in a healthy or vigorous way" },
+            { word: "revival", definition: "(n.) an improvement in the condition or strength of something." },
+            { word: "painstakingly", definition: "(adv.) with great care and thoroughness." },
+            { word: "gratified", definition: "(adj.) giving or expressing pleasure or satisfaction." },
+            { word: "predator", definition: "(n.) an animal that naturally preys on others." },
+            { word: "unrelenting", definition: "(adj.) not yielding or weakening in determination or resolve." },
+            { word: "foraging", definition: "(v.) searching for food in a wild area." },
         ];
 
         let selectedWord = null;
@@ -106,7 +107,7 @@
 
         function initQuiz() {
             startTime = new Date();
-            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Upperintermediate week3-4';
+            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Upperintermediate week7-8';
 
             // 随机选择10个单词和10个对应的释义
             const selectedWords = shuffleArray(vocabulary).slice(0, 10);
