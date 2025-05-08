@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> <!-- 允许用户缩放 -->
-    <title>Intermediate Week7-8</title>
+    <title>Intermediate Week9-10</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,29 +77,27 @@
 
     <script>
         const vocabulary = [
-            { word: "trigger", definition: "(v.) to cause or initiate a reaction or event." },
-            { word: "lasting", definition: "(adj.) enduring or permanent." },
-            { word: "implicit", definition: "(adj.) suggested or implied, but not plainly expressed." },
-            { word: "prompt", definition: "(v.) to cause or incite someone to do something." },
-            { word: "attest", definition: "(v.) to provide or serve as clear evidence of." },
-            { word: "commonplace", definition: "(adj.) ordinary; not unusual." },
-            { word: "reliving", definition: "(v.) experiencing again in the imagination or in memory." },
-            { word: "cue", definition: "(n.) a signal or prompt for something to happen." },
-            { word: "fossil", definition: "(n.) the remains or impression of a prehistoric organism preserved in rock." },
-            { word: "evolve", definition: "(v.) to develop gradually, especially from a simple to a more complex form." },
-            { word: "specimen", definition: "(n.) a sample or example taken for scientific study." },
-            { word: "identical", definition: "(adj.) exactly the same." },
-            { word: "avian", definition: "(adj.) relating to birds." },
-            { word: "trait", definition: "(v.) to discover or bring to light." },
-            { word: "unearth", definition: "(v.) disappear or fade away" },
-            { word: "preserve", definition: "(v.) to maintain (something) in its original or existing state." },
-            { word: "glimpse", definition: "(n.) a momentary or partial view." },
-            { word: "visualize", definition: "(v.) to form a mental image of; imagine." },
-            { word: "execution", definition: "(n.) the carrying out or putting into effect of a plan, order, or course of action." },
-            { word: "prime", definition: "(v.) to prepare or make (something) ready for use or operation." },
-            { word: "subsequent", definition: "(adj.) coming after something in time; following." },
-            { word: "perspective", definition: "(n.) a particular attitude toward or way of regarding something; a point of view." },
-            { word: "plateau", definition: "(n.) a state of little or no change following a period of activity or progress." },
+            { word: "empirical", definition: "(adj.) based on observation or experience rather than theory or logic." },
+            { word: "surge", definition: "(n.) a sudden and great increase." },
+            { word: "meditation", definition: "(n.) the focusing of one's mind for a period of time for relaxation or religious purposes." },
+            { word: "speculate", definition: "(v.) to form a theory or conjecture without firm evidence." },
+            { word: "reluctant", definition: "(adj.) unwilling or hesitant." },
+            { word: "compelling", definition: "(adj.) evoking interest, attention, or admiration in a powerfully irresistible way." },
+            { word: "obesity", definition: "(n.) the state of being grossly fat or overweight." },
+            { word: "incentivize", definition: "(v.) provide a reason for doing something; motivating." },
+            { word: "impose", definition: "(v.) force something to be accepted or put in place." },
+            { word: "manufacturer", definition: "(n.) company that produce goods." },
+            { word: "beverage", definition: "(n.) drinks." },
+            { word: "label", definition: "(n.) a small piece of paper or similar material attached to an object and giving information about it." },
+            { word: "efficacy", definition: "(n.) the ability to produce a desired or intended result." },
+            { word: "responsive", definition: "(adj.) reacting quickly and positively." },
+            { word: "address", definition: "(v.) deal with or discuss." },
+            { word: "indicate", definition: "(v.) show or point out." },
+            { word: "compensate", definition: "(v.) make up for something unwelcome or unpleasant by exerting an opposite force or effect." },
+            { word: "well-implemented", definition: "(adj.) carried out effectively and thoroughly." },
+            { word: "depict", definition: "(v.) show or represent in a picture or story." },
+            { word: "corporate", definition: "(adj.) relating to a large company or group." },
+            { word: "underlying", definition: "(adj.) situated under or beneath the surface; fundamental." },
         ];
 
         let selectedWord = null;
@@ -111,7 +109,7 @@
 
         function initQuiz() {
             startTime = new Date();
-            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Intermediate week5-6';
+            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Intermediate week9-10';
 
             // 随机选择15个单词和15个对应的释义
             const selectedWords = shuffleArray(vocabulary).slice(0, 15);
