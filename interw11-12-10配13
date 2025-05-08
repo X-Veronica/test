@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> <!-- 允许用户缩放 -->
+    <title>Intermediate Week11-12</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 48%;
+            min-height: 500px;
+        }
+        .word, .definition {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+        .word {
+            background-color: lightyellow;
+        }
+        .definition {
+            background-color: lightblue;
+        }
+        .matched {
+            background-color: lightpink !important;
+            cursor: default;
+        }
+        .selected {
+            background-color: lightgreen !important;
+        }
+        #submitButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ccc;
+            border: none;
+            border-radius: 5px;
+        }
+        #submitButton.highlight {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="dateHeading"></h1>
+        <div id="timer">04:00</div>
+        <input type="text" id="studentName" placeholder="Enter your name">
+    </div>
+    <div class="container">
+        <div class="column" id="wordColumn"></div>
+        <div class="column" id="definitionColumn"></div>
+    </div>
+    <button id="submitButton" onclick="submitQuiz()">Submit</button>
+
+    <script>
+        const vocabulary = [
+            { word: "recall", definition: "(v.) to bring back to mind; remember" },
+            { word: "derive", definition: "(v.) to obtain something from (a specified source)" },
+            { word: "tendency", definition: "(n.) an inclination to do something" },
+            { word: "ultimate", definition: "(adj.) being or happening at the end of a process; final" },
+            { word: "navigate", definition: "(v.) to find one's way through" },
+            { word: "retain", definition: "(v.) to continue to have (something); keep possession of" },
+            { word: "vastly", definition: "(adv.) to an exceedingly great extent or degree; immensely" },
+            { word: "ambiguous", definition: "(adj.) open to more than one interpretation; having a double meaning" },
+            { word: "portion", definition: "(n.) a part of a food serving intended for one person" },
+            { word: "furious", definition: "(adj.) extremely angry; enraged" },
+            { word: "persist", definition: "(v.) continue to exist or occur over a prolonged period" },
+            { word: "cram", definition: "(v.) to prepare for a test or examination by learning a great deal of information in a very short period" },
+            { word: "interleaving", definition: "(v.) to insert (something) between other things; interrupt with" },
+            { word: "retention", definition: "(n.) the continued possession, control, or preservation of something" },
+            { word: "counterintuitive", definition: "(adj.) contrary to what intuition would suggest" },
+            { word: "deploy", definition: "(v.) To bring (resources) into effective action" },
+            { word: "identify", definition: "(v.) establish or indicate who or what (someone or something) is" },
+        ];
+
+        let selectedWord = null;
+        let matchedPairs = new Map(); // 存储匹配的单词和释义
+        let startTime;
+        let timerInterval;
+        const totalTime = 240; // 4分钟倒计时
+        let remainingTime = totalTime;
+
+        function initQuiz() {
+            startTime = new Date();
+            document.getElementById('dateHeading').textContent = new Date().toLocaleDateString() + ' Intermediate week11-12';
+
+            // 随机选择10个单词和10个对应的释义
+            const selectedWords = shuffleArray(vocabulary).slice(0, 10);
+            const correctDefinitions = selectedWords.map(item => item.definition);
+
+            // 随机选择3个干扰项
+            const extraDefinitions = shuffleArray(vocabulary)
+                .filter(item => !correctDefinitions.includes(item.definition))
+                .slice(0, 3)
+                .map(item => item.definition);
+
+            // 合并所有释义（10个正确 + 3个干扰项）
+            const allDefinitions = shuffleArray([...correctDefinitions, ...extraDefinitions]);
+
+            // 显示单词
+            selectedWords.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'word';
+                div.textContent = item.word;
+                div.dataset.definition = item.definition;
+                div.addEventListener('click', handleWordClick);
+                div.addEventListener('dblclick', handleWordDoubleClick);
+                document.getElementById('wordColumn').appendChild(div);
+            });
+
+            // 显示释义
+            allDefinitions.forEach(definition => {
+                const div = document.createElement('div');
+                div.className = 'definition';
+                div.textContent = definition;
+                div.addEventListener('click', handleDefinitionClick);
+                document.getElementById('definitionColumn').appendChild(div);
+            });
+
+            startTimer();
+        }
+
+        function handleWordClick(e) {
+            const word = e.target;
+            if (word.classList.contains('matched')) return;
+
+            if (selectedWord) {
+                selectedWord.classList.remove('selected');
+            }
+            selectedWord = word;
+            selectedWord.classList.add('selected');
+        }
+
+        function handleWordDoubleClick(e) {
+            e.preventDefault(); // 阻止默认的双击缩放行为
+            const word = e.target;
+            if (word.classList.contains('matched')) {
+                // 取消匹配
+                const definition = matchedPairs.get(word);
+                if (definition) {
+                    definition.classList.remove('matched');
+                    matchedPairs.delete(word);
+                }
+                word.classList.remove('matched');
+            } else {
+                word.classList.remove('selected');
+                selectedWord = null;
+            }
+            checkCompletion();
+        }
+
+        function handleDefinitionClick(e) {
+            const definition = e.target;
+            if (definition.classList.contains('matched')) return;
+
+            if (selectedWord) {
+                selectedWord.classList.remove('selected');
+                selectedWord.classList.add('matched');
+                definition.classList.add('matched');
+                matchedPairs.set(selectedWord, definition);
+                selectedWord = null;
+            }
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            const words = document.querySelectorAll('#wordColumn .word');
+            const isComplete = Array.from(words).every(word => word.classList.contains('matched'));
+            const submitButton = document.getElementById('submitButton');
+            if (isComplete) {
+                submitButton.classList.add('highlight');
+            } else {
+                submitButton.classList.remove('highlight');
+            }
+        }
+
+        function submitQuiz() {
+            // 检查姓名框是否为空
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('请输入你的姓名！');
+                return; // 如果姓名为空，停止提交
+            }
+
+            const endTime = new Date();
+            const timeDiff = (endTime - startTime) / 1000;
+            const minutes = Math.floor(timeDiff / 60);
+            const seconds = Math.floor(timeDiff % 60);
+
+            let correctCount = 0;
+            let errors = [];
+            matchedPairs.forEach((definition, word) => {
+                if (definition.textContent === word.dataset.definition) {
+                    correctCount++;
+                } else {
+                    errors.push(`错误配对: ${word.textContent} → ${definition.textContent}`);
+                }
+            });
+
+            const accuracy = (correctCount / 15) * 100;
+
+            const pageTitle = document.title;
+
+            const submitTime = endTime.toLocaleString();
+            
+            const result = `网页标题: ${pageTitle}
+            提交时间: ${submitTime}
+            学生姓名: ${studentName}
+            完成时间: ${minutes}分${seconds}秒
+            正确率: ${accuracy.toFixed(2)}%
+            错误记录: ${errors.join('\n') || '无'}`;
+
+            alert(result);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                remainingTime--;
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz(); // 倒计时结束时自动提交
+                }
+            }, 1000);
+        }
+
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
