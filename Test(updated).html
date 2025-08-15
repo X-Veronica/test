@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Match - Week 11-12</title>
+    <title>25-26T1 Week1</title>
     <!-- Tailwind CSS CDN for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -146,22 +146,20 @@
             document.getElementById('submitButton').disabled = true; // Disable submit button initially
             document.getElementById('studentName').value = ''; // Clear student name
 
-            // Set current date heading
-            const today = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('dateHeading').textContent = `${today.toLocaleDateString('en-US', options)} - Intermediate week11-12`;
+            // Set current date heading - MODIFIED HERE to remove dynamic date
+            document.getElementById('dateHeading').textContent = '25-26T1 Week1-2'; // Changed to your desired title
 
             // Randomly select 10 words and their definitions
             const selectedWordsData = shuffleArray(vocabulary).slice(0, 10);
             const correctDefinitionsData = selectedWordsData.map(item => item.definition);
 
-            // Randomly select 3 distractor definitions
+            // Randomly select 0 distractor definitions (as per your previous instruction)
             const extraDefinitionsData = shuffleArray(vocabulary)
                 .filter(item => !correctDefinitionsData.includes(item.definition)) // Ensure distractors are not correct definitions
-                .slice(0, 3)
+                .slice(0, 0)
                 .map(item => item.definition);
 
-            // Combine all definitions (10 correct + 3 distractors) and shuffle them
+            // Combine all definitions (10 correct + 0 distractors) and shuffle them
             const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
 
             // Display words in the word column
@@ -291,6 +289,7 @@
 
             // Stop the timer
             clearInterval(timerInterval);
+            startTime = null; // Ensure start time is reset after submission
             quizActive = false; // Deactivate quiz
 
             const endTime = new Date();
@@ -349,7 +348,8 @@
             clearInterval(timerInterval); // Clear any existing timer
             remainingTime = totalTime; // Reset time
             updateTimerDisplay(); // Initial display
-
+            startTime = new Date(); // Reset start time when timer starts
+            
             timerInterval = setInterval(() => {
                 remainingTime--;
                 updateTimerDisplay();
@@ -446,3 +446,4 @@
     </script>
 </body>
 </html>
+
