@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C19T1</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to enhance Tailwind defaults and ensure responsiveness */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font */
+            background-color: #f8f8f8; /* Light background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Styles for the modal backdrop */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's on top */
+            backdrop-filter: blur(5px); /* Add a blur effect */
+        }
+
+        /* Styles for the modal content */
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px; /* Rounded corners for the modal */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
+        }
+
+        /* Fade-in animation for modal */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-200">
+    <!-- Main Quiz Container -->
+    <div class="bg-white p-6 md:p-10 rounded-xl shadow-lg w-full max-w-4xl space-y-6">
+        <!-- Header Section -->
+        <div class="text-center space-y-4">
+            <h1 id="dateHeading" class="text-3xl md:text-4xl font-extrabold text-gray-800"></h1>
+            <div id="timer" class="text-4xl font-bold text-blue-600">04:00</div>
+            <input type="text" id="studentName" placeholder="Enter your name"
+                   class="w-full md:w-1/2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg shadow-sm"
+                   aria-label="Student Name">
+        </div>
+
+        <!-- Word and Definition Columns -->
+        <div class="flex flex-col md:flex-row justify-between gap-6">
+            <div class="column flex-1 bg-yellow-50 p-4 rounded-lg shadow-md min-h-[300px] md:min-h-[500px] border border-yellow-200 overflow-auto" id="wordColumn">
+                <!-- Words will be dynamically inserted here -->
+            </div>
+            <div class="column flex-1 bg-blue-50 p-4 rounded-lg shadow-md min-h-[300px] md:min-h-[500px] border border-blue-200 overflow-auto" id="definitionColumn">
+                <!-- Definitions will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col md:flex-row justify-center gap-4 mt-6">
+            <button id="submitButton" onclick="submitQuiz()"
+                    class="px-8 py-4 bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out
+                           hover:bg-green-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-green-300 text-lg cursor-not-allowed"
+                    disabled>
+                Submit Quiz
+            </button>
+            <button id="resetButton" onclick="resetQuiz()"
+                    class="px-8 py-4 bg-red-400 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out
+                           hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 text-lg">
+                Reset Quiz
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom Modal Structure -->
+    <div id="customModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-gray-800"></h2>
+            <div id="modalMessage" class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left"></div>
+            <button onclick="closeModal()"
+                    class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out
+                           hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Vocabulary data for the quiz
+        const vocabulary = [
+            { word: "momentarily", definition: "for a very short time" },
+            { word: "laudable", definition: "worthy of praise" },
+            { word: "inadvertently", definition: "carelessly or unintentionally" },
+            { word: "loom", definition: "to come into view; to appear in exaggerated form" },
+            { word: "synthetic", definition: "made or put together by people" },
+            { word: "eradicate", definition: "to wipe out; to destroy" },
+            { word: "merchant", definition: "a person who makes money by selling goods" },
+            { word: "distinct", definition: "clearly different; clearly noticed" },
+            { word: "consensus", definition: "general agreement" },
+            { word: "reject", definition: "to refuse" },
+            { word: "regulatory", definition: "control and maintain a law, rule or principle" },
+            { word: "prominence", definition: "importance" },
+            { word: "grip", definition: "to hold tightly" },
+            { word: "arduous", definition: "requiring much effort" },
+            { word: "resort to", definition: "to turn to" },
+            { word: "curtail", definition: "to cut short or reduce" },
+            { word: "empirical", definition: "based on observation or experiment" },
+            { word: "remedy", definition: "to cure" },
+            { word: "warrant", definition: "to justify or deserve" },
+            { word: "robust", definition: "strong and healthy; vigorous" },
+            { word: "prominent", definition: "important; famous" },
+            { word: "amateur", definition: "not professional" },
+            { word: "detrimental to", definition: "harmful; damaging" },
+            { word: "subtle", definition: "delicate, elusive, not obvious" },
+            { word: "deceive", definition: "trick sb by behaving dishonestly" },
+            { word: "counter", definition: "to oppose against" },
+            { word: "hamper", definition: "hinder; obstruct" },
+            { word: "fallibility", definition: "the likelihood of making errors" },
+            { word: "prowl", definition: "to roam about stealthily in search of something" },
+            { word: "concerted", definition: "planned or performed in cooperation with others" },
+            { word: "verify", definition: "check or show that sth is true and accurate" },
+            { word: "persistence", definition: "the continual recurrence of unwanted memories" },
+            { word: "hybrid", definition: "anything of mixed origin" },
+            { word: "panacea", definition: "a remedy for all ills; cure-all; an answer to all problems" },
+            { word: "daring", definition: "bold, courageous, brave" },
+            { word: "menace", definition: "a threat or danger" },
+            { word: "fundamentally", definition: "in a way that is basic and important" },
+            { word: "garner", definition: "to gather; to acquire" },
+            { word: "raid", definition: "a sudden short attack" },
+            { word: "preemptive", definition: "done before someone else can do it" },
+            { word: "culprit", definition: "one responsible for a crime" },
+            { word: "substantial", definition: "of considerable importance, size, or worth" },
+            { word: "customise", definition: "to make or change sth according to the buyer's or user's needs" }
+]
+        ];
+
+        let selectedWord = null; // Stores the currently selected word DOM element
+        let matchedPairs = new Map(); // Stores matched word-definition DOM element pairs
+        let startTime; // Timestamp when the quiz starts
+        let timerInterval; // Interval ID for the timer
+        const totalTime = 240; // Total time for the quiz in seconds (4 minutes)
+        let remainingTime = totalTime; // Remaining time in seconds
+        let quizActive = false; // Flag to indicate if the quiz is active
+
+        // Function to initialize or reset the quiz
+        function initQuiz() {
+            // Clear existing elements
+            document.getElementById('wordColumn').innerHTML = '';
+            document.getElementById('definitionColumn').innerHTML = '';
+            matchedPairs.clear();
+            selectedWord = null;
+            document.getElementById('submitButton').classList.remove('bg-green-600', 'text-white');
+            document.getElementById('submitButton').classList.add('bg-gray-300', 'text-gray-700');
+            document.getElementById('submitButton').disabled = true; // Disable submit button initially
+            document.getElementById('studentName').value = ''; // Clear student name
+
+            // Set current date heading - MODIFIED HERE to remove dynamic date
+            document.getElementById('dateHeading').textContent = 'C19T1'; // Changed to your desired title
+
+            // Randomly select 15 words and their definitions
+            const selectedWordsData = shuffleArray(vocabulary).slice(0, 15);
+            const correctDefinitionsData = selectedWordsData.map(item => item.definition);
+
+            // Randomly select 0 distractor definitions (as per your previous instruction)
+            const extraDefinitionsData = shuffleArray(vocabulary)
+                .filter(item => !correctDefinitionsData.includes(item.definition)) // Ensure distractors are not correct definitions
+                .slice(0, 0)
+                .map(item => item.definition);
+
+            // Combine all definitions (10 correct + 0 distractors) and shuffle them
+            const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
+
+            // Display words in the word column
+            selectedWordsData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'word p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
+                                'bg-yellow-200 hover:bg-yellow-300 shadow-sm border border-yellow-300';
+                div.textContent = item.word;
+                div.dataset.definition = item.definition; // Store correct definition for checking
+                div.addEventListener('click', handleWordClick);
+                div.addEventListener('dblclick', handleWordDoubleClick);
+                document.getElementById('wordColumn').appendChild(div);
+            });
+
+            // Display definitions in the definition column
+            allDefinitions.forEach(definition => {
+                const div = document.createElement('div');
+                div.className = 'definition p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
+                                'bg-blue-200 hover:bg-blue-300 shadow-sm border border-blue-300';
+                div.textContent = definition;
+                div.addEventListener('click', handleDefinitionClick);
+                document.getElementById('definitionColumn').appendChild(div);
+            });
+
+            // Start the timer
+            startTimer();
+            quizActive = true;
+        }
+
+        // Handles click on a word element
+        function handleWordClick(e) {
+            const word = e.target;
+            // If already matched (pink background), do nothing
+            if (word.classList.contains('bg-pink-300')) return;
+
+            // Remove 'selected' class (green highlight) from previously selected word
+            if (selectedWord) {
+                selectedWord.classList.remove('bg-green-400', 'border-green-500'); // Remove green highlight
+                selectedWord.classList.add('bg-yellow-200', 'border-yellow-300'); // Restore yellow
+            }
+            
+            // Set new selected word and highlight it
+            selectedWord = word;
+            selectedWord.classList.add('bg-green-400', 'border-green-500'); // Add green highlight
+            selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300'); // Remove yellow
+        }
+
+        // Handles double-click on a word element (for unmatching)
+        function handleWordDoubleClick(e) {
+            e.preventDefault(); // Prevent default browser zoom on double-click, especially on mobile
+            const word = e.target;
+
+            // If the word is currently matched (has pink background), unmatch it
+            if (word.classList.contains('bg-pink-300')) {
+                const definition = matchedPairs.get(word); // Get the associated definition
+                if (definition) {
+                    // Remove 'matched' styling from both word and definition
+                    definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
+                    definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
+                    matchedPairs.delete(word); // Remove from matched pairs map
+                }
+                word.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
+                word.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
+            } else {
+                // If not matched, deselect it (remove green highlight)
+                word.classList.remove('bg-green-400', 'border-green-500');
+                word.classList.add('bg-yellow-200', 'border-yellow-300');
+            }
+            selectedWord = null; // Clear selected word
+            checkCompletion(); // Check if submit button state needs to change
+        }
+
+        // Handles click on a definition element
+        function handleDefinitionClick(e) {
+            const definition = e.target;
+            // If already matched (pink background), do nothing
+            if (definition.classList.contains('bg-pink-300')) return;
+
+            // If a word is selected (has green highlight), try to match it with the clicked definition
+            if (selectedWord) {
+                // Remove 'selected' class from the word
+                selectedWord.classList.remove('bg-green-400', 'border-green-500');
+
+                // Apply 'matched' styling to both word and definition
+                selectedWord.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
+                definition.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
+                
+                // Remove hover effects for matched items
+                selectedWord.classList.remove('hover:bg-yellow-300');
+                definition.classList.remove('hover:bg-blue-300');
+
+                // Store the matched pair
+                matchedPairs.set(selectedWord, definition);
+                selectedWord = null; // Clear selected word
+            }
+            checkCompletion(); // Check if submit button state needs to change
+        }
+
+        // Checks if all words have been matched and updates submit button state
+        function checkCompletion() {
+            const words = document.querySelectorAll('#wordColumn .word');
+            // Check if all displayed words have the 'matched' pink background class
+            const allWordsMatched = Array.from(words).every(word => word.classList.contains('bg-pink-300'));
+            const submitButton = document.getElementById('submitButton');
+
+            // Enable/disable submit button and change its appearance
+            if (allWordsMatched) {
+                submitButton.classList.remove('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
+                submitButton.classList.add('bg-green-500', 'hover:bg-green-600', 'text-white', 'cursor-pointer');
+                submitButton.disabled = false;
+            } else {
+                submitButton.classList.add('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
+                submitButton.classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
+                submitButton.disabled = true;
+            }
+        }
+
+        // Handles quiz submission
+        function submitQuiz() {
+            if (!quizActive) return; // Prevent submission if quiz is not active (e.g., already submitted/timed out)
+
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                showMessage('Missing Information', 'Please enter your name before submitting the quiz.');
+                return;
+            }
+
+            // Stop the timer
+            clearInterval(timerInterval);
+            startTime = null; // Ensure start time is reset after submission
+            quizActive = false; // Deactivate quiz
+
+            const endTime = new Date();
+            const timeDiff = (endTime - startTime) / 1000; // Time in seconds
+            const minutes = Math.floor(timeDiff / 60);
+            const seconds = Math.floor(timeDiff % 60);
+
+            let correctCount = 0;
+            let errors = [];
+            let totalWordsInQuiz = 0; // To count only the words initially displayed for matching
+
+            document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
+                totalWordsInQuiz++;
+                // Check if this word was matched and if the match is correct
+                if (matchedPairs.has(wordElement)) {
+                    const matchedDefinitionElement = matchedPairs.get(wordElement);
+                    if (matchedDefinitionElement.textContent === wordElement.dataset.definition) {
+                        correctCount++;
+                    } else {
+                        errors.push(`Incorrect: "${wordElement.textContent}" was matched with "${matchedDefinitionElement.textContent}"`);
+                    }
+                } else {
+                    // This case should ideally not happen if submit button is only enabled when all words are matched
+                    // But added for robustness in case of partial submission (e.g., timer runs out)
+                    errors.push(`Unmatched: "${wordElement.textContent}"`);
+                }
+            });
+
+            // Calculate accuracy based on the number of words displayed in the quiz (which is 10)
+            const accuracy = (correctCount / totalWordsInQuiz) * 100;
+
+            const pageTitle = document.title;
+            const submitTime = endTime.toLocaleString();
+            
+            // Construct the result message for the modal
+            let resultMessage = `
+                Page Title: ${pageTitle}
+                Submission Time: ${submitTime}
+                Student Name: ${studentName}
+                Completion Time: ${minutes}m ${seconds}s
+                Correct Matches: ${correctCount}/${totalWordsInQuiz}
+                Accuracy: ${accuracy.toFixed(2)}%
+            `;
+
+            if (errors.length > 0) {
+                resultMessage += `\n\nErrors:\n${errors.join('\n')}`;
+            } else {
+                resultMessage += `\n\nErrors: None 🎉`;
+            }
+
+            showMessage('Quiz Results', resultMessage);
+        }
+
+        // Starts the countdown timer
+        function startTimer() {
+            clearInterval(timerInterval); // Clear any existing timer
+            remainingTime = totalTime; // Reset time
+            updateTimerDisplay(); // Initial display
+            startTime = new Date(); // Reset start time when timer starts
+            
+            timerInterval = setInterval(() => {
+                remainingTime--;
+                updateTimerDisplay();
+
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    showMessage('Time\'s Up!', 'Your time has run out. The quiz has been automatically submitted.');
+                    submitQuiz(); // Auto-submit when time runs out
+                }
+            }, 1000);
+        }
+
+        // Updates the timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(remainingTime / 60);
+            const seconds = remainingTime % 60;
+            document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Shuffles an array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+            return array;
+        }
+
+        // Displays a custom modal message
+        function showMessage(title, message) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            // Clear previous buttons from the modal content if they are not the default 'Close' button
+            const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
+            let existingButtons = modalContentDiv.querySelectorAll('button');
+            existingButtons.forEach(button => {
+                // Keep only the 'Close' button for regular messages, remove confirm/cancel buttons
+                if (button.textContent !== 'Close') {
+                    button.remove();
+                }
+            });
+            // Re-add the default 'Close' button if it was removed or isn't there
+            if (!modalContentDiv.querySelector('button[onclick="closeModal()"]')) {
+                const closeButton = document.createElement('button');
+                closeButton.textContent = 'Close';
+                closeButton.className = 'px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg';
+                closeButton.onclick = closeModal;
+                modalContentDiv.appendChild(closeButton);
+            }
+            document.getElementById('customModal').classList.remove('hidden'); // Show the modal
+        }
+
+        // Closes the custom modal message
+        function closeModal() {
+            document.getElementById('customModal').classList.add('hidden'); // Hide the modal
+        }
+
+        // Resets the quiz to its initial state
+        function resetQuiz() {
+            // Modify modal to include confirmation buttons for reset
+            const modalMessageDiv = document.getElementById('modalMessage');
+            modalMessageDiv.innerHTML = '<p class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left">' + 
+                                       'Are you sure you want to reset the quiz? Your current progress will be lost.' +
+                                       '</p>';
+            const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
+            
+            // Remove existing close button if any
+            let oldCloseButton = modalContentDiv.querySelector('button[onclick="closeModal()"]');
+            if (oldCloseButton) oldCloseButton.remove();
+
+            // Add confirm and cancel buttons for the reset action
+            const confirmButton = document.createElement('button');
+            confirmButton.textContent = 'Yes, Reset';
+            confirmButton.className = 'px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 text-lg mr-2';
+            confirmButton.onclick = () => {
+                clearInterval(timerInterval); // Stop timer
+                initQuiz(); // Re-initialize everything
+                closeModal(); // Close the confirmation modal
+            };
+
+            const cancelButton = document.createElement('button');
+            cancelButton.textContent = 'Cancel';
+            cancelButton.className = 'px-6 py-3 bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 text-lg';
+            cancelButton.onclick = closeModal;
+
+            modalContentDiv.appendChild(confirmButton);
+            modalContentDiv.appendChild(cancelButton);
+            document.getElementById('modalTitle').textContent = 'Confirm Reset';
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        // Initialize quiz when the window loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
