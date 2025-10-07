@@ -97,466 +97,469 @@
     </div>
 
     <script>
-        // Vocabulary data for the quiz
-        const vocabulary = [
-            { word: "conceal", definition: "隐藏" },
-            { word: "claim", definition: "声称" },
-            { word: "tone", definition: "语气" },
-            { word: "range", definition: "范围" },
-            { word: "import", definition: "进口" },
-            { word: "pledge", definition: "保证" },
-            { word: "thrive", definition: "繁荣" },
-            { word: "starve", definition: "挨饿" },
-            { word: "imply", definition: "暗示" },
-            { word: "density", definition: "密度" },
-            { word: "strain", definition: "压力" },
-            { word: "leap", definition: "跳跃" },
-            { word: "scold", definition: "责骂" },
-            { word: "perceive", definition: "察觉" },
-            { word: "stimulate", definition: "刺激" },
-            { word: "digest", definition: "消化" },
-            { word: "prior", definition: "先前的" },
-            { word: "urge", definition: "催促" },
-            { word: "obligation", definition: "义务" },
-            { word: "panic", definition: "恐慌" },
-            { word: "spare", definition: "饶恕" },
-            { word: "crucial", definition: "至关重要的" },
-            { word: "digital", definition: "数字的" },
-            { word: "glance", definition: "瞥一眼" },
-            { word: "resume", definition: "恢复" },
-            { word: "retreat", definition: "撤退" },
-            { word: "fade", definition: "褪色" },
-            { word: "tender", definition: "温柔的" },
-            { word: "harmony", definition: "和谐" },
-            { word: "appeal", definition: "呼吁" },
-            { word: "manual", definition: "手工的" },
-            { word: "appetite", definition: "食欲" },
-            { word: "convert", definition: "转换" },
-            { word: "pump", definition: "抽水" },
-            { word: "counsel", definition: "建议" },
-            { word: "renovate", definition: "翻新" },
-            { word: "liberal", definition: "自由的" },
-            { word: "remote", definition: "遥远的" },
-            { word: "facility", definition: "设施" },
-            { word: "peculiar", definition: "奇怪的" },
-            { word: "stem", definition: "源于" },
-            { word: "margin", definition: "边缘" },
-            { word: "block", definition: "阻碍" },
-            { word: "infect", definition: "感染" },
-            { word: "illusion", definition: "幻觉" },
-            { word: "fierce", definition: "凶猛的" },
-            { word: "strip", definition: "剥去" },
-            { word: "fuss", definition: "大惊小怪" },
-            { word: "tremendous", definition: "巨大的" },
-            { word: "exploit", definition: "利用" },
-            { word: "recession", definition: "衰退" },
-            { word: "hinder", definition: "阻碍" },
-            { word: "context", definition: "背景" },
-            { word: "prospect", definition: "前景" },
-            { word: "inevitable", definition: "不可避免的" },
-            { word: "discrimination", definition: "歧视" },
-            { word: "optimism", definition: "乐观" },
-            { word: "postpone", definition: "推迟" },
-            { word: "incentive", definition: "激励" },
-            { word: "victim", definition: "受害者" },
-            { word: "inspire", definition: "鼓舞" },
-            { word: "virtual", definition: "虚拟的" },
-            { word: "dare", definition: "敢于" },
-            { word: "in that", definition: "因为" },
-            { word: "vague", definition: "模糊的" },
-            { word: "capacity", definition: "能力" },
-            { word: "discard", definition: "丢弃" },
-            { word: "incident", definition: "事件" },
-            { word: "instinct", definition: "本能" },
-            { word: "rank", definition: "等级" },
-            { word: "emerge", definition: "出现" },
-            { word: "coordinate", definition: "协调" },
-            { word: "temporary", definition: "临时的" },
-            { word: "aviation", definition: "航空" },
-            { word: "detect", definition: "侦测" },
-            { word: "slim", definition: "苗条的" },
-            { word: "retain", definition: "保留" },
-            { word: "latter", definition: "后者的" },
-            { word: "poverty", definition: "贫穷" },
-            { word: "bargain", definition: "交易" },
-            { word: "orbit", definition: "轨道" },
-            { word: "dismiss", definition: "解雇" },
-            { word: "constitute", definition: "构成" },
-            { word: "reverse", definition: "颠倒" },
-            { word: "evolve", definition: "进化" },
-            { word: "fatigue", definition: "疲劳" },
-            { word: "dispose", definition: "处理" },
-            { word: "confront", definition: "面对" },
-            { word: "dilemma", definition: "困境" },
-            { word: "abundant", definition: "丰富的" },
-            { word: "wander", definition: "漫步" }
-        ];
+    // Vocabulary data for the quiz
+    const vocabulary = [
+        { word: "conceal", definition: "隐藏" },
+        { word: "claim", definition: "声称" },
+        { word: "tone", definition: "语气" },
+        { word: "range", definition: "范围" },
+        { word: "import", definition: "进口" },
+        { word: "pledge", definition: "保证" },
+        { word: "thrive", definition: "繁荣" },
+        { word: "starve", definition: "挨饿" },
+        { word: "imply", definition: "暗示" },
+        { word: "density", definition: "密度" },
+        { word: "strain", definition: "压力" },
+        { word: "leap", definition: "跳跃" },
+        { word: "scold", definition: "责骂" },
+        { word: "perceive", definition: "察觉" },
+        { word: "stimulate", definition: "刺激" },
+        { word: "digest", definition: "消化" },
+        { word: "prior", definition: "先前的" },
+        { word: "urge", definition: "催促" },
+        { word: "obligation", definition: "义务" },
+        { word: "panic", definition: "恐慌" },
+        { word: "spare", definition: "饶恕" },
+        { word: "crucial", definition: "至关重要的" },
+        { word: "digital", definition: "数字的" },
+        { word: "glance", definition: "瞥一眼" },
+        { word: "resume", definition: "恢复" },
+        { word: "retreat", definition: "撤退" },
+        { word: "fade", definition: "褪色" },
+        { word: "tender", definition: "温柔的" },
+        { word: "harmony", definition: "和谐" },
+        { word: "appeal", definition: "呼吁" },
+        { word: "manual", definition: "手工的" },
+        { word: "appetite", definition: "食欲" },
+        { word: "convert", definition: "转换" },
+        { word: "pump", definition: "抽水" },
+        { word: "counsel", definition: "建议" },
+        { word: "renovate", definition: "翻新" },
+        { word: "liberal", definition: "自由的" },
+        { word: "remote", definition: "遥远的" },
+        { word: "facility", definition: "设施" },
+        { word: "peculiar", definition: "奇怪的" },
+        { word: "stem", definition: "源于" },
+        { word: "margin", definition: "边缘" },
+        { word: "block", definition: "阻碍" },
+        { word: "infect", "definition": "感染" },
+        { word: "illusion", definition: "幻觉" },
+        { word: "fierce", definition: "凶猛的" },
+        { word: "strip", definition: "剥去" },
+        { word: "fuss", definition: "大惊小怪" },
+        { word: "tremendous", definition: "巨大的" },
+        { word: "exploit", definition: "利用" },
+        { word: "recession", definition: "衰退" },
+        { word: "hinder", definition: "阻碍" },
+        { word: "context", definition: "背景" },
+        { word: "prospect", definition: "前景" },
+        { word: "inevitable", definition: "不可避免的" },
+        { word: "discrimination", definition: "歧视" },
+        { word: "optimism", definition: "乐观" },
+        { word: "postpone", definition: "推迟" },
+        { word: "incentive", definition: "激励" },
+        { word: "victim", definition: "受害者" },
+        { word: "inspire", definition: "鼓舞" },
+        { word: "virtual", definition: "虚拟的" },
+        { word: "dare", definition: "敢于" },
+        { word: "in that", definition: "因为" },
+        { word: "vague", definition: "模糊的" },
+        { word: "capacity", definition: "能力" },
+        { word: "discard", definition: "丢弃" },
+        { word: "incident", definition: "事件" },
+        { word: "instinct", definition: "本能" },
+        { word: "rank", definition: "等级" },
+        { word: "emerge", definition: "出现" },
+        { word: "coordinate", definition: "协调" },
+        { word: "temporary", definition: "临时的" },
+        { word: "aviation", definition: "航空" },
+        { word: "detect", definition: "侦测" },
+        { word: "slim", definition: "苗条的" },
+        { word: "retain", definition: "保留" },
+        { word: "latter", definition: "后者的" },
+        { word: "poverty", definition: "贫穷" },
+        { word: "bargain", definition: "交易" },
+        { word: "orbit", definition: "轨道" },
+        { word: "dismiss", definition: "解雇" },
+        { word: "constitute", definition: "构成" },
+        { word: "reverse", definition: "颠倒" },
+        { word: "evolve", definition: "进化" },
+        { word: "fatigue", definition: "疲劳" },
+        { word: "dispose", definition: "处理" },
+        { word: "confront", definition: "面对" },
+        { word: "dilemma", definition: "困境" },
+        { word: "abundant", definition: "丰富的" },
+        { word: "wander", definition: "漫步" }
+    ];
 
-        let selectedWord = null; // Stores the currently selected word DOM element
-        let matchedPairs = new Map(); // Stores matched word-definition DOM element pairs
-        let quizStartTime; // Timestamp when the quiz starts
-        let quizEndTime; // Timestamp when the quiz ends or is submitted
-        let timerInterval; // Interval ID for the timer
-        const totalTime = 240; // Total time for the quiz in seconds (4 minutes)
-        let remainingTime = totalTime; // Remaining time in seconds
-        let quizActive = false; // Flag to indicate if the quiz is active
-        let nameInput = document.getElementById('studentName'); // Caching the name input element
+    let selectedWord = null; // Stores the currently selected word DOM element
+    let matchedPairs = new Map(); // Stores matched word-definition DOM element pairs
+    let quizStartTime; // Timestamp when the quiz starts
+    let quizEndTime; // Timestamp when the quiz ends or is submitted
+    let timerInterval; // Interval ID for the timer
+    const totalTime = 240; // Total time for the quiz in seconds (4 minutes)
+    let remainingTime = totalTime; // Remaining time in seconds
+    let quizActive = false; // Flag to indicate if the quiz is active
+    let nameInput = document.getElementById('studentName'); // Caching the name input element
+    let wordsInCurrentQuiz = []; // Stores the word objects for the current quiz round
 
-        // Function to initialize or reset the quiz
-        function initQuiz() {
-            // Clear existing elements
-            document.getElementById('wordColumn').innerHTML = '';
-            document.getElementById('definitionColumn').innerHTML = '';
-            matchedPairs.clear();
-            selectedWord = null;
-            document.getElementById('submitButton').classList.remove('bg-green-600', 'text-white');
-            document.getElementById('submitButton').classList.add('bg-gray-300', 'text-gray-700');
-            document.getElementById('submitButton').disabled = true; // Disable submit button initially
-            // nameInput.value = ''; // **Removed: Keep name across resets for convenience if desired**
+    // Function to initialize or reset the quiz
+    function initQuiz() {
+        // Clear existing elements
+        document.getElementById('wordColumn').innerHTML = '';
+        document.getElementById('definitionColumn').innerHTML = '';
+        matchedPairs.clear();
+        selectedWord = null;
+        wordsInCurrentQuiz = []; // **RESET the words list for the new quiz**
+        document.getElementById('submitButton').classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
+        document.getElementById('submitButton').classList.add('bg-gray-300', 'text-gray-700');
+        document.getElementById('submitButton').disabled = true; // Disable submit button initially
 
-            // Set current date heading - MODIFIED HERE to remove dynamic date
-            document.getElementById('dateHeading').textContent = '25-26T1 Week1-2'; // Changed to your desired title
+        // Set current date heading - MODIFIED HERE to remove dynamic date
+        document.getElementById('dateHeading').textContent = '25-26T1 Week1-2'; // Changed to your desired title
 
-            // Randomly select 10 words and their definitions
-            const selectedWordsData = shuffleArray(vocabulary).slice(0, 10);
-            const correctDefinitionsData = selectedWordsData.map(item => item.definition);
+        // Randomly select 10 words and their definitions
+        const selectedWordsData = shuffleArray(vocabulary).slice(0, 10);
+        wordsInCurrentQuiz = selectedWordsData; // **STORE the selected words data**
+        const correctDefinitionsData = selectedWordsData.map(item => item.definition);
 
-            // Randomly select 0 distractor definitions (as per your previous instruction)
-            const extraDefinitionsData = shuffleArray(vocabulary)
-                .filter(item => !correctDefinitionsData.includes(item.definition)) // Ensure distractors are not correct definitions
-                .slice(0, 0)
-                .map(item => item.definition);
+        // Randomly select 0 distractor definitions (as per your previous instruction)
+        const extraDefinitionsData = shuffleArray(vocabulary)
+            .filter(item => !correctDefinitionsData.includes(item.definition)) // Ensure distractors are not correct definitions
+            .slice(0, 0)
+            .map(item => item.definition);
 
-            // Combine all definitions (10 correct + 0 distractors) and shuffle them
-            const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
+        // Combine all definitions (10 correct + 0 distractors) and shuffle them
+        const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
 
-            // Display words in the word column
-            selectedWordsData.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'word p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
-                                'bg-yellow-200 hover:bg-yellow-300 shadow-sm border border-yellow-300';
-                div.textContent = item.word;
-                div.dataset.definition = item.definition; // Store correct definition for checking
-                div.addEventListener('click', handleWordClick);
-                div.addEventListener('dblclick', handleWordDoubleClick);
-                document.getElementById('wordColumn').appendChild(div);
-            });
+        // Display words in the word column
+        selectedWordsData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'word p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
+                                 'bg-yellow-200 hover:bg-yellow-300 shadow-sm border border-yellow-300';
+            div.textContent = item.word;
+            div.dataset.definition = item.definition; // Store correct definition for checking
+            div.addEventListener('click', handleWordClick);
+            div.addEventListener('dblclick', handleWordDoubleClick);
+            document.getElementById('wordColumn').appendChild(div);
+        });
 
-            // Display definitions in the definition column
-            allDefinitions.forEach(definition => {
-                const div = document.createElement('div');
-                div.className = 'definition p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
-                                'bg-blue-200 hover:bg-blue-300 shadow-sm border border-blue-300';
-                div.textContent = definition;
-                div.addEventListener('click', handleDefinitionClick);
-                div.addEventListener('dblclick', handleDefinitionDoubleClick); // **ADDED: Double-click handler for definitions**
-                document.getElementById('definitionColumn').appendChild(div);
-            });
+        // Display definitions in the definition column
+        allDefinitions.forEach(definition => {
+            const div = document.createElement('div');
+            div.className = 'definition p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
+                                 'bg-blue-200 hover:bg-blue-300 shadow-sm border border-blue-300';
+            div.textContent = definition;
+            div.addEventListener('click', handleDefinitionClick);
+            div.addEventListener('dblclick', handleDefinitionDoubleClick); // **ADDED: Double-click handler for definitions**
+            document.getElementById('definitionColumn').appendChild(div);
+        });
 
-            // Start the timer
-            startTimer();
-            quizActive = true;
-        }
+        // Start the timer
+        startTimer();
+        quizActive = true;
+    }
 
-        // Handles click on a word element
-        function handleWordClick(e) {
-            if (!quizActive) return; // Ignore clicks if quiz is not active
-            const word = e.target;
-            // If already matched (pink background), do nothing
-            if (word.classList.contains('bg-pink-300')) return;
+    // Handles click on a word element
+    function handleWordClick(e) {
+        if (!quizActive) return; // Ignore clicks if quiz is not active
+        const word = e.target;
+        // If already matched (pink background), do nothing
+        if (word.classList.contains('bg-pink-300')) return;
 
-            // Remove 'selected' class (green highlight) from previously selected word
-            if (selectedWord) {
-                selectedWord.classList.remove('bg-green-400', 'border-green-500'); // Remove green highlight
-                selectedWord.classList.add('bg-yellow-200', 'border-yellow-300'); // Restore yellow
-            }
-            
-            // Set new selected word and highlight it
-            selectedWord = word;
-            selectedWord.classList.add('bg-green-400', 'border-green-500'); // Add green highlight
-            selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300'); // Remove yellow
-        }
+        // Remove 'selected' class (green highlight) from previously selected word
+        if (selectedWord) {
+            selectedWord.classList.remove('bg-green-400', 'border-green-500'); // Remove green highlight
+            selectedWord.classList.add('bg-yellow-200', 'border-yellow-300'); // Restore yellow
+        }
+        
+        // Set new selected word and highlight it
+        selectedWord = word;
+        selectedWord.classList.add('bg-green-400', 'border-green-500'); // Add green highlight
+        selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300'); // Remove yellow
+    }
 
-        // Handles double-click on a word element (for unmatching/deselecting)
-        function handleWordDoubleClick(e) {
-            if (!quizActive) return; // Ignore clicks if quiz is not active
-            e.preventDefault();
-            const word = e.target;
-            unmatchElement(word, 'word');
-        }
+    // Handles double-click on a word element (for unmatching/deselecting)
+    function handleWordDoubleClick(e) {
+        if (!quizActive) return; // Ignore clicks if quiz is not active
+        e.preventDefault();
+        const word = e.target;
+        unmatchElement(word, 'word');
+    }
 
-        // **NEW: Handles double-click on a definition element (for unmatching)**
-        function handleDefinitionDoubleClick(e) {
-            if (!quizActive) return; // Ignore clicks if quiz is not active
-            e.preventDefault();
-            const definition = e.target;
-            unmatchElement(definition, 'definition');
-        }
+    // **NEW: Handles double-click on a definition element (for unmatching)**
+    function handleDefinitionDoubleClick(e) {
+        if (!quizActive) return; // Ignore clicks if quiz is not active
+        e.preventDefault();
+        const definition = e.target;
+        unmatchElement(definition, 'definition');
+    }
 
-        // Helper function to unmatch an element (word or definition)
-        function unmatchElement(element, type) {
-            if (type === 'word' && element.classList.contains('bg-pink-300')) {
-                // Unmatching a word: find the definition
-                const definition = matchedPairs.get(element);
-                if (definition) {
-                    // Restore definition style
-                    definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
-                    definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
-                    // Remove definition from map (need to reverse find word)
-                    // The current Map is word -> definition. To remove by definition, we must iterate.
-                    // Since the Map keys are word elements, we can simply delete the key 'element'.
-                    matchedPairs.delete(element);
-                }
-                // Restore word style
-                element.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default', 'bg-green-400', 'border-green-500');
-                element.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
-                selectedWord = null; // Clear selected word
-            } else if (type === 'definition' && element.classList.contains('bg-pink-300')) {
-                // Unmatching a definition: find the word that points to it
-                let wordToRemove = null;
-                for (const [word, definition] of matchedPairs.entries()) {
-                    if (definition === element) {
-                        wordToRemove = word;
-                        break;
-                    }
-                }
-                if (wordToRemove) {
-                    // Restore word style
-                    wordToRemove.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default', 'bg-green-400', 'border-green-500');
-                    wordToRemove.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
-                    matchedPairs.delete(wordToRemove);
-                }
-                // Restore definition style
-                element.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
-                element.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
-                selectedWord = null; // Clear selected word
-            } else if (type === 'word') {
-                // If not matched, deselect the word (remove green highlight)
-                element.classList.remove('bg-green-400', 'border-green-500');
-                element.classList.add('bg-yellow-200', 'border-yellow-300');
-                selectedWord = null;
-            }
-            checkCompletion(); // Check if submit button state needs to change
-        }
+    // Helper function to unmatch an element (word or definition)
+    function unmatchElement(element, type) {
+        if (type === 'word' && element.classList.contains('bg-pink-300')) {
+            // Unmatching a word: find the definition
+            const definition = matchedPairs.get(element);
+            if (definition) {
+                // Restore definition style
+                definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
+                definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
+                // Remove definition from map (need to reverse find word)
+                // The current Map is word -> definition. To remove by definition, we must iterate.
+                // Since the Map keys are word elements, we can simply delete the key 'element'.
+                matchedPairs.delete(element);
+            }
+            // Restore word style
+            element.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default', 'bg-green-400', 'border-green-500');
+            element.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
+            selectedWord = null; // Clear selected word
+        } else if (type === 'definition' && element.classList.contains('bg-pink-300')) {
+            // Unmatching a definition: find the word that points to it
+            let wordToRemove = null;
+            for (const [word, definition] of matchedPairs.entries()) {
+                if (definition === element) {
+                    wordToRemove = word;
+                    break;
+                }
+            }
+            if (wordToRemove) {
+                // Restore word style
+                wordToRemove.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default', 'bg-green-400', 'border-green-500');
+                wordToRemove.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
+                matchedPairs.delete(wordToRemove);
+            }
+            // Restore definition style
+            element.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
+            element.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
+            selectedWord = null; // Clear selected word
+        } else if (type === 'word') {
+            // If not matched, deselect the word (remove green highlight)
+            element.classList.remove('bg-green-400', 'border-green-500');
+            element.classList.add('bg-yellow-200', 'border-yellow-300');
+            selectedWord = null;
+        }
+        checkCompletion(); // Check if submit button state needs to change
+    }
 
-        // Handles click on a definition element
-        function handleDefinitionClick(e) {
-            if (!quizActive) return; // Ignore clicks if quiz is not active
-            const definition = e.target;
-            // If already matched (pink background), do nothing
-            if (definition.classList.contains('bg-pink-300')) return;
+    // Handles click on a definition element
+    function handleDefinitionClick(e) {
+        if (!quizActive) return; // Ignore clicks if quiz is not active
+        const definition = e.target;
+        // If already matched (pink background), do nothing
+        if (definition.classList.contains('bg-pink-300')) return;
 
-            // If a word is selected (has green highlight), try to match it with the clicked definition
-            if (selectedWord) {
-                // Remove 'selected' class from the word
-                selectedWord.classList.remove('bg-green-400', 'border-green-500');
+        // If a word is selected (has green highlight), try to match it with the clicked definition
+        if (selectedWord) {
+            // Remove 'selected' class from the word
+            selectedWord.classList.remove('bg-green-400', 'border-green-500');
 
-                // Apply 'matched' styling to both word and definition
-                selectedWord.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
-                definition.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
-                
-                // Remove hover effects for matched items
-                selectedWord.classList.remove('hover:bg-yellow-300');
-                definition.classList.remove('hover:bg-blue-300');
+            // Apply 'matched' styling to both word and definition
+            selectedWord.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
+            definition.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
+            
+            // Remove hover effects for matched items
+            selectedWord.classList.remove('hover:bg-yellow-300');
+            definition.classList.remove('hover:bg-blue-300');
 
-                // Store the matched pair
-                matchedPairs.set(selectedWord, definition);
-                selectedWord = null; // Clear selected word
-            }
-            checkCompletion(); // Check if submit button state needs to change
-        }
+            // Store the matched pair
+            matchedPairs.set(selectedWord, definition);
+            selectedWord = null; // Clear selected word
+        }
+        checkCompletion(); // Check if submit button state needs to change
+    }
 
-        // Checks if all words have been matched and updates submit button state
-        function checkCompletion() {
-            const words = document.querySelectorAll('#wordColumn .word');
-            // Check if all displayed words have the 'matched' pink background class
-            const allWordsMatched = Array.from(words).every(word => word.classList.contains('bg-pink-300'));
-            const submitButton = document.getElementById('submitButton');
+    // Checks if all words have been matched and updates submit button state
+    function checkCompletion() {
+        const words = document.querySelectorAll('#wordColumn .word');
+        // Check if all displayed words have the 'matched' pink background class
+        const allWordsMatched = Array.from(words).every(word => word.classList.contains('bg-pink-300'));
+        const submitButton = document.getElementById('submitButton');
 
-            // Enable/disable submit button and change its appearance
-            if (allWordsMatched && quizActive) {
-                submitButton.classList.remove('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
-                submitButton.classList.add('bg-green-500', 'hover:bg-green-600', 'text-white', 'cursor-pointer');
-                submitButton.disabled = false;
-            } else {
-                submitButton.classList.add('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
-                submitButton.classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
-                submitButton.disabled = true;
-            }
-        }
+        // Enable/disable submit button and change its appearance
+        if (allWordsMatched && quizActive) {
+            submitButton.classList.remove('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
+            submitButton.classList.add('bg-green-500', 'hover:bg-green-600', 'text-white', 'cursor-pointer');
+            submitButton.disabled = false;
+        } else {
+            submitButton.classList.add('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
+            submitButton.classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
+            submitButton.disabled = true;
+        }
+    }
 
-        // Handles quiz submission
-        function submitQuiz() {
-            if (!quizActive) return; // Prevent submission if quiz is not active (e.g., already submitted/timed out)
+    // Handles quiz submission
+    function submitQuiz() {
+        if (!quizActive) return; // Prevent submission if quiz is not active (e.g., already submitted/timed out)
 
-            const studentName = nameInput.value.trim();
-            if (!studentName) {
-                showMessage('Missing Information', 'Please enter your name before submitting the quiz.');
-                return;
-            }
+        const studentName = nameInput.value.trim();
+        if (!studentName) {
+            showMessage('Missing Information', 'Please enter your name before submitting the quiz.');
+            return;
+        }
 
-            // Stop the timer
-            clearInterval(timerInterval);
-            quizEndTime = new Date();
-            quizActive = false; // Deactivate quiz
+        // Stop the timer
+        clearInterval(timerInterval);
+        quizEndTime = new Date();
+        quizActive = false; // Deactivate quiz
+        document.getElementById('submitButton').disabled = true; // Also disable button on submission
 
-            // **MODIFICATION 1: Calculate time based on difference between start and end time (or total time if timed out)**
-            let timeDiffSeconds;
-            if (quizStartTime) {
-                timeDiffSeconds = Math.floor((quizEndTime - quizStartTime) / 1000); // Time in seconds
-            } else {
-                // Fallback if quizStartTime somehow isn't set, though it should be by startTimer
-                timeDiffSeconds = totalTime - remainingTime;
-            }
-            
-            // Use timeDiffSeconds for completion time
-            const minutes = Math.floor(timeDiffSeconds / 60);
-            const seconds = Math.floor(timeDiffSeconds % 60);
+        // Calculate time
+        let timeDiffSeconds;
+        if (quizStartTime) {
+            // Time in seconds
+            timeDiffSeconds = Math.floor((quizEndTime - quizStartTime) / 1000); 
+        } else {
+            // Fallback if quizStartTime somehow isn't set, though it should be by startTimer
+            timeDiffSeconds = totalTime - remainingTime;
+        }
+        
+        const minutes = Math.floor(timeDiffSeconds / 60);
+        const seconds = Math.floor(timeDiffSeconds % 60);
 
-            let correctCount = 0;
-            let errors = [];
-            let totalWordsInQuiz = 0; // To count only the words initially displayed for matching
+        let correctCount = 0;
+        let totalWordsInQuiz = 0; // To count only the words initially displayed for matching
 
-            document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
-                totalWordsInQuiz++;
-                // Check if this word was matched and if the match is correct
-                if (matchedPairs.has(wordElement)) {
-                    const matchedDefinitionElement = matchedPairs.get(wordElement);
-                    if (matchedDefinitionElement.textContent === wordElement.dataset.definition) {
-                        correctCount++;
-                    } else {
-                        errors.push(`Incorrect: "${wordElement.textContent}" was matched with "${matchedDefinitionElement.textContent}"`);
-                    }
-                } else {
-                    // This case happens if timer runs out before completion
-                    errors.push(`Unmatched: "${wordElement.textContent}"`);
-                }
-            });
+        document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
+            totalWordsInQuiz++;
+            // Check if this word was matched and if the match is correct
+            if (matchedPairs.has(wordElement)) {
+                const matchedDefinitionElement = matchedPairs.get(wordElement);
+                if (matchedDefinitionElement.textContent === wordElement.dataset.definition) {
+                    correctCount++;
+                }
+            } 
+        });
 
-            // Calculate accuracy based on the number of words displayed in the quiz (which is 10)
-            const accuracy = (correctCount / totalWordsInQuiz) * 100;
+        // Calculate accuracy based on the number of words displayed in the quiz (which is 10)
+        const accuracy = (correctCount / totalWordsInQuiz) * 100;
 
-            const pageTitle = document.title;
-            const submitTime = quizEndTime.toLocaleTimeString('en-US', { hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(/, /g, ' ').replace(/\//g, '-');
-            
-            // Construct the result message for the modal
-            let resultMessage = `
-                Page Title: ${pageTitle}
-                Submission Time: ${submitTime}
-                Student Name: ${studentName}
-                Completion Time: ${timeDiffSeconds}s (${minutes}m ${seconds}s)
-                Correct Matches: ${correctCount}/${totalWordsInQuiz}
-                Accuracy: ${accuracy.toFixed(2)}%
-            `;
+        const pageTitle = document.title;
+        const submitTime = quizEndTime.toLocaleTimeString('en-US', { hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(/, /g, ' ').replace(/\//g, '-');
+        
+        // **START MODIFICATION 2: Generate the Correct Answers list for memory reinforcement**
+        let correctAnswersList = "";
+        wordsInCurrentQuiz.forEach(item => {
+            correctAnswersList += `${item.word} should be matched with ${item.definition}\n`;
+        });
+        // **END MODIFICATION 2**
 
-            if (errors.length > 0) {
-                resultMessage += `\n\nErrors:\n${errors.join('\n')}`;
-            } else {
-                resultMessage += `\n\nErrors: None 🎉`;
-            }
+        // Construct the result message for the modal
+        let resultMessage = `
+Page Title: ${pageTitle}
+Submission Time: ${submitTime}
+Student Name: ${studentName}
+Completion Time: ${timeDiffSeconds}s (${minutes}m ${seconds}s)
+Correct Matches: ${correctCount}/${totalWordsInQuiz}
+Accuracy: ${accuracy.toFixed(2)}%
 
-            showMessage('Quiz Results', resultMessage);
-        }
+---
 
-        // Starts the countdown timer
-        function startTimer() {
-            clearInterval(timerInterval); // Clear any existing timer
-            remainingTime = totalTime; // Reset time
-            updateTimerDisplay(); // Initial display
-            quizStartTime = new Date(); // **FIXED: Use the current time as the actual start time**
-            
-            timerInterval = setInterval(() => {
-                remainingTime--;
-                updateTimerDisplay();
+**Correct Matches for Memory Reinforcement (强化记忆):**
 
-                if (remainingTime <= 0) {
-                    clearInterval(timerInterval);
-                    showMessage('Time\'s Up!', 'Your time has run out. The quiz has been automatically submitted.');
-                    submitQuiz(); // Auto-submit when time runs out
-                }
-            }, 1000);
-        }
+${correctAnswersList}
+        `;
 
-        // Updates the timer display
-        function updateTimerDisplay() {
-            const minutes = Math.floor(remainingTime / 60);
-            const seconds = remainingTime % 60;
-            document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
+        showMessage('Quiz Results (测验结果)', resultMessage);
+    }
 
-        // Shuffles an array (Fisher-Yates algorithm)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-            }
-            return array;
-        }
+    // Starts the countdown timer
+    function startTimer() {
+        clearInterval(timerInterval); // Clear any existing timer
+        remainingTime = totalTime; // Reset time
+        updateTimerDisplay(); // Initial display
+        quizStartTime = new Date(); // **FIXED: Use the current time as the actual start time**
+        
+        timerInterval = setInterval(() => {
+            remainingTime--;
+            updateTimerDisplay();
 
-        // Displays a custom modal message
-        function showMessage(title, message) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalMessage').textContent = message;
-            // Clear previous buttons from the modal content if they are not the default 'Close' button
-            const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
-            let existingButtons = modalContentDiv.querySelectorAll('button');
-            existingButtons.forEach(button => {
-                // Keep only the 'Close' button for regular messages, remove confirm/cancel buttons
-                if (button.textContent !== 'Close') {
-                    button.remove();
-                }
-            });
-            // Re-add the default 'Close' button if it was removed or isn't there
-            if (!modalContentDiv.querySelector('button[onclick="closeModal()"]')) {
-                const closeButton = document.createElement('button');
-                closeButton.textContent = 'Close';
-                closeButton.className = 'px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg';
-                closeButton.onclick = closeModal;
-                modalContentDiv.appendChild(closeButton);
-            }
-            document.getElementById('customModal').classList.remove('hidden'); // Show the modal
-        }
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                showMessage('Time\'s Up!', 'Your time has run out. The quiz has been automatically submitted.');
+                // Use a slight delay to ensure modal shows before submitQuiz runs
+                setTimeout(submitQuiz, 100); 
+            }
+        }, 1000);
+    }
 
-        // Closes the custom modal message
-        function closeModal() {
-            document.getElementById('customModal').classList.add('hidden'); // Hide the modal
-        }
+    // Updates the timer display
+    function updateTimerDisplay() {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
 
-        // Resets the quiz to its initial state
-        function resetQuiz() {
-            // Modify modal to include confirmation buttons for reset
-            const modalMessageDiv = document.getElementById('modalMessage');
-            modalMessageDiv.innerHTML = '<p class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left">' + 
-                                       'Are you sure you want to reset the quiz? Your current progress will be lost.' +
-                                       '</p>';
-            const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
-            
-            // Remove existing buttons
-            Array.from(modalContentDiv.querySelectorAll('button')).forEach(btn => btn.remove());
+    // Shuffles an array (Fisher-Yates algorithm)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+        return array;
+    }
 
-            // Add confirm and cancel buttons for the reset action
-            const confirmButton = document.createElement('button');
-            confirmButton.textContent = 'Yes, Reset';
-            confirmButton.className = 'px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 text-lg mr-2';
-            confirmButton.onclick = () => {
-                clearInterval(timerInterval); // Stop timer
-                initQuiz(); // Re-initialize everything
-                closeModal(); // Close the confirmation modal
-            };
+    // Displays a custom modal message
+    function showMessage(title, message) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalMessage').textContent = message;
+        // Clear previous buttons from the modal content if they are not the default 'Close' button
+        const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
+        let existingButtons = modalContentDiv.querySelectorAll('button');
+        existingButtons.forEach(button => {
+            // Keep only the 'Close' button for regular messages, remove confirm/cancel buttons
+            if (button.textContent !== 'Close') {
+                button.remove();
+            }
+        });
+        // Re-add the default 'Close' button if it was removed or isn't there
+        if (!modalContentDiv.querySelector('button[onclick="closeModal()"]')) {
+            const closeButton = document.createElement('button');
+            closeButton.textContent = 'Close';
+            closeButton.className = 'px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg';
+            closeButton.onclick = closeModal;
+            modalContentDiv.appendChild(closeButton);
+        }
+        document.getElementById('customModal').classList.remove('hidden'); // Show the modal
+    }
 
-            const cancelButton = document.createElement('button');
-            cancelButton.textContent = 'Cancel';
-            cancelButton.className = 'px-6 py-3 bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 text-lg';
-            cancelButton.onclick = closeModal;
+    // Closes the custom modal message
+    function closeModal() {
+        document.getElementById('customModal').classList.add('hidden'); // Hide the modal
+    }
 
-            modalContentDiv.appendChild(confirmButton);
-            modalContentDiv.appendChild(cancelButton);
-            document.getElementById('modalTitle').textContent = 'Confirm Reset';
-            document.getElementById('customModal').classList.remove('hidden');
-        }
+    // Resets the quiz to its initial state
+    function resetQuiz() {
+        // Modify modal to include confirmation buttons for reset
+        const modalMessageDiv = document.getElementById('modalMessage');
+        modalMessageDiv.innerHTML = '<p class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left">' + 
+                                     'Are you sure you want to reset the quiz? Your current progress will be lost.' +
+                                     '</p>';
+        const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
+        
+        // Remove existing buttons
+        Array.from(modalContentDiv.querySelectorAll('button')).forEach(btn => btn.remove());
 
-        // Initialize quiz when the window loads
-        window.onload = initQuiz;
-    </script>
-</body>
-</html>
+        // Add confirm and cancel buttons for the reset action
+        const confirmButton = document.createElement('button');
+        confirmButton.textContent = 'Yes, Reset';
+        confirmButton.className = 'px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 text-lg mr-2';
+        confirmButton.onclick = () => {
+            clearInterval(timerInterval); // Stop timer
+            initQuiz(); // Re-initialize everything
+            closeModal(); // Close the confirmation modal
+        };
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.className = 'px-6 py-3 bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 text-lg';
+        cancelButton.onclick = closeModal;
+
+        modalContentDiv.appendChild(confirmButton);
+        modalContentDiv.appendChild(cancelButton);
+        document.getElementById('modalTitle').textContent = 'Confirm Reset';
+        document.getElementById('customModal').classList.remove('hidden');
+    }
+
+    // Initialize quiz when the window loads
+    window.onload = initQuiz;
+</script>
