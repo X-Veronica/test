@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>25-26T1 Week1-NewVocab</title>
+    <title>25-26T1 Week1-NewVocab-FIXED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles to enhance Tailwind defaults and ensure responsiveness */
@@ -52,7 +52,16 @@
 
         /* Custom container for positioning the canvas */
         .quiz-columns-container {
-            position: relative; /* Establish positioning context for the canvas */
+            position: relative; 
+            /* 修正 1: 确保容器高度足够，从而可以移除滚动条 */
+            min-height: 500px; 
+        }
+
+        /* 修正 2: 移除滚动条 */
+        .column {
+            /* 确保内容不会滚动，避免坐标错位 */
+            overflow: hidden !important; 
+            min-height: 500px !important; 
         }
 
         /* Canvas for drawing lines */
@@ -62,7 +71,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Important: Ensures the canvas doesn't block mouse clicks on words/definitions */
             pointer-events: none;
             z-index: 10; 
         }
@@ -82,9 +90,9 @@
             
             <canvas id="lineCanvas"></canvas>
 
-            <div class="column flex-1 bg-yellow-50 p-4 rounded-lg shadow-md min-h-[300px] md:min-h-[500px] border border-yellow-200 overflow-auto" id="wordColumn">
+            <div class="column flex-1 bg-yellow-50 p-4 rounded-lg shadow-md min-h-[500px] border border-yellow-200" id="wordColumn">
                 </div>
-            <div class="column flex-1 bg-blue-50 p-4 rounded-lg shadow-md min-h-[300px] md:min-h-[500px] border border-blue-200 overflow-auto" id="definitionColumn">
+            <div class="column flex-1 bg-blue-50 p-4 rounded-lg shadow-md min-h-[500px] border border-blue-200" id="definitionColumn">
                 </div>
         </div>
 
@@ -212,7 +220,6 @@
         ];
         // --- 词汇数据结束 ---
 
-        // 设置从词汇库中抽取的词汇数量
         const QUIZ_WORD_COUNT = 15; 
 
         let selectedWord = null;
@@ -243,7 +250,6 @@
             document.getElementById('submitButton').disabled = true;
             document.getElementById('studentName').value = '';
             
-            // Clear all line data and redraw the canvas
             matchLines.clear();
             clearLine(); 
             if (selectedWord) {
@@ -252,29 +258,24 @@
             }
 
 
-            // Set heading
             document.getElementById('dateHeading').textContent = 'IELTS Vocabulary Matching Quiz (' + QUIZ_WORD_COUNT + ' words)';
 
-            // Randomly select words and their definitions
             const selectedWordsData = shuffleArray(vocabulary).slice(0, QUIZ_WORD_COUNT);
             const correctDefinitionsData = selectedWordsData.map(item => item.definition);
 
-            // No distractor definitions used (as per your initial setup)
             const allDefinitions = shuffleArray(correctDefinitionsData);
 
-            // Display words in the word column
             selectedWordsData.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'word p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
                                  'bg-yellow-200 hover:bg-yellow-300 shadow-sm border border-yellow-300';
                 div.textContent = item.word;
-                div.dataset.definition = item.definition; // Store correct definition for checking
+                div.dataset.definition = item.definition;
                 div.addEventListener('click', handleWordClick);
                 div.addEventListener('dblclick', handleWordDoubleClick);
                 document.getElementById('wordColumn').appendChild(div);
             });
 
-            // Display definitions in the definition column
             allDefinitions.forEach(definition => {
                 const div = document.createElement('div');
                 div.className = 'definition p-3 mb-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out ' +
@@ -284,7 +285,6 @@
                 document.getElementById('definitionColumn').appendChild(div);
             });
 
-            // Set up canvas size and start the timer
             resizeCanvas();
             startTimer();
             quizActive = true;
@@ -302,7 +302,8 @@
         function getElementLinePoint(element, isWord) {
             const rect = element.getBoundingClientRect();
             const containerRect = columnsContainer.getBoundingClientRect();
-            // Word Column (isWord=true): use right edge, Definition Column (isWord=false): use left edge
+            // Crucial: Subtract the container's top/left position from the element's top/left 
+            // to get coordinates relative to the canvas origin (0,0).
             const x = isWord ? rect.right - containerRect.left : rect.left - containerRect.left;
             const y = rect.top + rect.height / 2 - containerRect.top;
             return { x, y };
@@ -311,8 +312,8 @@
         // Clears the canvas entirely and resets lineData
         function clearLine() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            lineData = null; // Clear active line data
-            drawMatchedLines(); // Redraw permanent lines
+            lineData = null; 
+            drawMatchedLines(); 
         }
 
         // Draws a single active line (from a selected word)
@@ -325,21 +326,32 @@
             ctx.stroke();
         }
         
-        // Draws all the permanently matched lines (pink)
+        // Draws all the permanently matched lines (pink/green/red)
         function drawMatchedLines() {
             matchLines.forEach((coords, wordElement) => {
-                // Determine color based on final state for submission only
+                
+                // Re-calculate coordinates for existing matched elements to account for any small layout shifts
+                if (quizActive) {
+                    const wordPoint = getElementLinePoint(wordElement, true);
+                    const definition = matchedPairs.get(wordElement);
+                    if (!definition) return;
+                    const definitionPoint = getElementLinePoint(definition, false);
+                    coords.startX = wordPoint.x;
+                    coords.startY = wordPoint.y;
+                    coords.endX = definitionPoint.x;
+                    coords.endY = definitionPoint.y;
+                }
+                
                 const isCorrect = (wordElement.classList.contains('bg-green-200') && !wordElement.classList.contains('bg-red-200'));
-                const isIncorrect = wordElement.classList.contains('bg-red-200');
-
+                
                 ctx.beginPath();
                 ctx.moveTo(coords.startX, coords.startY);
                 ctx.lineTo(coords.endX, coords.endY);
                 
-                if (!quizActive) { // If quiz is submitted, use final colors
-                    ctx.strokeStyle = isCorrect ? '#059669' : '#EF4444'; // Dark green/red for result
+                if (!quizActive) {
+                    ctx.strokeStyle = isCorrect ? '#059669' : '#EF4444';
                     ctx.lineWidth = 3;
-                } else { // During quiz, use pink
+                } else {
                     ctx.strokeStyle = '#EC4899'; 
                     ctx.lineWidth = 2;
                 }
@@ -349,7 +361,7 @@
         
         // Main function to draw all lines (active and matched)
         function drawLines() {
-            clearLine(); // Clears all, redraws matched
+            clearLine(); 
             if (lineData) {
                 drawActiveLine(lineData.startX, lineData.startY, lineData.endX, lineData.endY);
             }
@@ -374,10 +386,8 @@
             }
         }
         
-        // Attach the mouse move listener to the columns container
         columnsContainer.addEventListener('mousemove', handleMouseMove);
 
-        // Handles click on a word element
         function handleWordClick(e) {
             const word = e.target;
             if (word.classList.contains('bg-pink-300') || !quizActive) {
@@ -390,7 +400,6 @@
                 selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
             }
             
-            // Toggle selection
             if (selectedWord === word) {
                 selectedWord.classList.remove('bg-green-400', 'border-green-500');
                 selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
@@ -400,16 +409,13 @@
                 selectedWord = word;
                 selectedWord.classList.add('bg-green-400', 'border-green-500');
                 selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300');
-                // Mousemove will draw the line
             }
         }
 
-        // Handles double-click on a word element (for unmatching)
         function handleWordDoubleClick(e) {
             e.preventDefault();
             const word = e.target;
 
-            // Clear any active line/selection
             if(selectedWord) {
                 selectedWord.classList.remove('bg-green-400', 'border-green-500'); 
                 selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
@@ -417,14 +423,13 @@
             selectedWord = null;
             clearLine();
 
-            // If the word is currently matched, unmatch it
             if (word.classList.contains('bg-pink-300') && quizActive) {
                 const definition = matchedPairs.get(word);
                 if (definition) {
                     definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
                     definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
                     matchedPairs.delete(word);
-                    matchLines.delete(word); // Remove line data
+                    matchLines.delete(word); 
                 }
                 word.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
                 word.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
@@ -433,28 +438,22 @@
             checkCompletion();
         }
 
-        // Handles click on a definition element
         function handleDefinitionClick(e) {
             const definition = e.target;
             if (definition.classList.contains('bg-pink-300') || !quizActive) return;
 
-            // Match if a word is selected
             if (selectedWord) {
-                // 1. Remove 'selected' class from the word
                 selectedWord.classList.remove('bg-green-400', 'border-green-500', 'bg-yellow-200', 'border-yellow-300');
                 
-                // 2. Apply 'matched' styling
                 selectedWord.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
                 definition.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
                 
-                // 3. Remove hover effects for matched items
                 selectedWord.classList.remove('hover:bg-yellow-300');
                 definition.classList.remove('hover:bg-blue-300');
                 
-                // 4. Store the matched pair
                 matchedPairs.set(selectedWord, definition);
 
-                // 5. Store the line coordinates for the matched pair
+                // 修正 3: 在匹配时保存准确的 Canvas 相对坐标
                 const wordPoint = getElementLinePoint(selectedWord, true);
                 const definitionPoint = getElementLinePoint(definition, false);
                 matchLines.set(selectedWord, {
@@ -464,13 +463,12 @@
                     endY: definitionPoint.y
                 });
                 
-                selectedWord = null; // Clear selected word
-                clearLine(); // Clear active line and redraw matched lines
+                selectedWord = null;
+                clearLine();
             }
             checkCompletion();
         }
 
-        // Checks if all words have been matched and updates submit button state
         function checkCompletion() {
             const words = document.querySelectorAll('#wordColumn .word');
             const allWordsMatched = Array.from(words).every(word => word.classList.contains('bg-pink-300'));
@@ -487,7 +485,6 @@
             }
         }
 
-        // Handles quiz submission
         function submitQuiz() {
             if (!quizActive) return;
 
@@ -497,12 +494,10 @@
                 return;
             }
 
-            // Stop the timer
             clearInterval(timerInterval);
             startTime = null;
             quizActive = false;
             
-            // Clear the canvas completely before final result drawing
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
             const endTime = new Date();
@@ -514,37 +509,45 @@
             let errors = [];
             let totalWordsInQuiz = 0; 
 
+            // Clear old lines and prepare for final state drawing
+            matchLines.clear(); 
+
             document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
                 totalWordsInQuiz++;
                 
                 if (matchedPairs.has(wordElement)) {
                     const matchedDefinitionElement = matchedPairs.get(wordElement);
                     
-                    // Remove all temporary colors
                     wordElement.classList.remove('bg-pink-300', 'border-pink-400');
                     matchedDefinitionElement.classList.remove('bg-pink-300', 'border-pink-400');
 
 
                     if (matchedDefinitionElement.textContent === wordElement.dataset.definition) {
                         correctCount++;
-                        // Highlight correct matches in a final green color
                         wordElement.classList.add('bg-green-200', 'border-green-400');
                         matchedDefinitionElement.classList.add('bg-green-200', 'border-green-400');
                     } else {
                         errors.push(`错误: "${wordElement.textContent}" 匹配了 "${matchedDefinitionElement.textContent}" (正确答案是: ${wordElement.dataset.definition})`);
-                        // Highlight incorrect matches in a final red color
                         wordElement.classList.add('bg-red-200', 'border-red-400');
                         matchedDefinitionElement.classList.add('bg-red-200', 'border-red-400');
                     }
+                    
+                    // 修正 4: 在提交时，再次获取并保存最终的坐标，以确保在结果显示时的连线准确性
+                    const wordPoint = getElementLinePoint(wordElement, true);
+                    const definitionPoint = getElementLinePoint(matchedDefinitionElement, false);
+                    matchLines.set(wordElement, {
+                        startX: wordPoint.x,
+                        startY: wordPoint.y,
+                        endX: definitionPoint.x,
+                        endY: definitionPoint.y
+                    });
                 } else {
                     errors.push(`未匹配: "${wordElement.textContent}"`);
-                    // Unmatched words stay yellow/default
                     wordElement.classList.remove('bg-pink-300', 'border-pink-400');
                     wordElement.classList.add('bg-yellow-200', 'border-yellow-300');
                 }
             });
 
-            // Redraw the lines with the final color coding
             drawMatchedLines();
 
 
@@ -553,7 +556,6 @@
             const pageTitle = document.title;
             const submitTime = endTime.toLocaleString();
             
-            // Construct the result message for the modal
             let resultMessage = `
                 页面标题 (Page Title): ${pageTitle}
                 提交时间 (Submission Time): ${submitTime}
@@ -572,7 +574,6 @@
             showMessage('测验结果 (Quiz Results)', resultMessage);
         }
 
-        // Starts the countdown timer
         function startTimer() {
             clearInterval(timerInterval);
             remainingTime = totalTime;
@@ -591,14 +592,12 @@
             }, 1000);
         }
 
-        // Updates the timer display
         function updateTimerDisplay() {
             const minutes = Math.floor(remainingTime / 60);
             const seconds = remainingTime % 60;
             const timerElement = document.getElementById('timer');
             timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             
-            // Change color when time is low
             if (remainingTime <= 30) {
                 timerElement.classList.remove('text-blue-600');
                 timerElement.classList.add('text-red-600');
@@ -608,16 +607,14 @@
             }
         }
 
-        // Shuffles an array (Fisher-Yates algorithm)
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+                [array[i], array[j]] = [array[j], array[i]];
             }
             return array;
         }
 
-        // Displays a custom modal message
         function showMessage(title, message) {
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalMessage').textContent = message;
@@ -643,12 +640,10 @@
             document.getElementById('customModal').classList.remove('hidden');
         }
 
-        // Closes the custom modal message
         function closeModal() {
             document.getElementById('customModal').classList.add('hidden');
         }
 
-        // Resets the quiz to its initial state
         function resetQuiz() {
             const modalMessageDiv = document.getElementById('modalMessage');
             modalMessageDiv.innerHTML = '<p class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left">' + 
@@ -678,13 +673,11 @@
             document.getElementById('customModal').classList.remove('hidden');
         }
 
-        // Add event listener for window resize to keep the canvas aligned
         window.addEventListener('resize', () => {
             resizeCanvas(); 
             clearLine(); 
         });
 
-        // Initialize quiz when the window loads
         window.onload = initQuiz;
     </script>
 </body>
