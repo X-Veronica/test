@@ -87,7 +87,7 @@
     <div id="customModal" class="modal-backdrop hidden">
         <div class="modal-content">
             <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-gray-800"></h2>
-            <div id="modalMessage" class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left"></div>
+            <div id="modalMessage" class="text-base text-gray-700 leading-relaxed mb-6 text-left"></div> 
             <button onclick="closeModal()"
                     class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out
                            hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg">
@@ -192,17 +192,17 @@
         { word: "wander", definition: "漫步" }
     ];
 
-    let selectedWord = null; // Stores the currently selected word DOM element
-    let matchedPairs = new Map(); // Stores matched word-definition DOM element pairs
-    let quizStartTime; // Timestamp when the quiz starts
-    let quizEndTime; // Timestamp when the quiz ends or is submitted
-    let timerInterval; // Interval ID for the timer
-    const **totalWords** = **15**; // **已修改: 每次测验的单词量**
-    const **totalTime** = **240**; // **已修改: 测验总时间为 4 分钟 (240 秒)**
-    let remainingTime = totalTime; // Remaining time in seconds
-    let quizActive = false; // Flag to indicate if the quiz is active
-    let nameInput = document.getElementById('studentName'); // Caching the name input element
-    let wordsInCurrentQuiz = []; // Stores the word objects for the current quiz round
+    let selectedWord = null; 
+    let matchedPairs = new Map(); 
+    let quizStartTime; 
+    let quizEndTime; 
+    let timerInterval; 
+    const totalWords = 15; // 每次测验的单词量
+    const totalTime = 240; // 测验总时间为 4 分钟 (240 秒)
+    let remainingTime = totalTime; 
+    let quizActive = false; 
+    let nameInput = document.getElementById('studentName'); 
+    let wordsInCurrentQuiz = []; 
 
     // Function to initialize or reset the quiz
     function initQuiz() {
@@ -211,7 +211,7 @@
         document.getElementById('definitionColumn').innerHTML = '';
         matchedPairs.clear();
         selectedWord = null;
-        wordsInCurrentQuiz = []; // RESET the words list for the new quiz
+        wordsInCurrentQuiz = []; 
         document.getElementById('submitButton').classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
         document.getElementById('submitButton').classList.add('bg-gray-300', 'text-gray-700');
         document.getElementById('submitButton').disabled = true; // Disable submit button initially
@@ -221,12 +221,12 @@
 
         // Randomly select 15 words and their definitions
         const selectedWordsData = shuffleArray(vocabulary).slice(0, totalWords); // 使用 totalWords 常量
-        wordsInCurrentQuiz = selectedWordsData; // STORE the selected words data
+        wordsInCurrentQuiz = selectedWordsData; 
         const correctDefinitionsData = selectedWordsData.map(item => item.definition);
 
         // Randomly select 0 distractor definitions (as per your previous instruction)
         const extraDefinitionsData = shuffleArray(vocabulary)
-            .filter(item => !correctDefinitionsData.includes(item.definition)) // Ensure distractors are not correct definitions
+            .filter(item => !correctDefinitionsData.includes(item.definition)) 
             .slice(0, 0)
             .map(item => item.definition);
 
@@ -263,26 +263,23 @@
 
     // Handles click on a word element
     function handleWordClick(e) {
-        if (!quizActive) return; // Ignore clicks if quiz is not active
+        if (!quizActive) return; 
         const word = e.target;
-        // If already matched (pink background), do nothing
         if (word.classList.contains('bg-pink-300')) return;
 
-        // Remove 'selected' class (green highlight) from previously selected word
         if (selectedWord) {
-            selectedWord.classList.remove('bg-green-400', 'border-green-500'); // Remove green highlight
-            selectedWord.classList.add('bg-yellow-200', 'border-yellow-300'); // Restore yellow
+            selectedWord.classList.remove('bg-green-400', 'border-green-500'); 
+            selectedWord.classList.add('bg-yellow-200', 'border-yellow-300'); 
         }
         
-        // Set new selected word and highlight it
         selectedWord = word;
-        selectedWord.classList.add('bg-green-400', 'border-green-500'); // Add green highlight
-        selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300'); // Remove yellow
+        selectedWord.classList.add('bg-green-400', 'border-green-500'); 
+        selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300'); 
     }
 
     // Handles double-click on a word element (for unmatching/deselecting)
     function handleWordDoubleClick(e) {
-        if (!quizActive) return; // Ignore clicks if quiz is not active
+        if (!quizActive) return; 
         e.preventDefault();
         const word = e.target;
         unmatchElement(word, 'word');
@@ -290,7 +287,7 @@
 
     // Handles double-click on a definition element (for unmatching)
     function handleDefinitionDoubleClick(e) {
-        if (!quizActive) return; // Ignore clicks if quiz is not active
+        if (!quizActive) return; 
         e.preventDefault();
         const definition = e.target;
         unmatchElement(definition, 'definition');
@@ -299,10 +296,8 @@
     // Helper function to unmatch an element (word or definition)
     function unmatchElement(element, type) {
         if (type === 'word' && element.classList.contains('bg-pink-300')) {
-            // Unmatching a word: find the definition
             const definition = matchedPairs.get(element);
             if (definition) {
-                // Restore definition style
                 definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
                 definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
                 matchedPairs.delete(element);
@@ -312,7 +307,6 @@
             element.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
             selectedWord = null; // Clear selected word
         } else if (type === 'definition' && element.classList.contains('bg-pink-300')) {
-            // Unmatching a definition: find the word that points to it
             let wordToRemove = null;
             for (const [word, definition] of matchedPairs.entries()) {
                 if (definition === element) {
@@ -336,19 +330,16 @@
             element.classList.add('bg-yellow-200', 'border-yellow-300');
             selectedWord = null;
         }
-        checkCompletion(); // Check if submit button state needs to change
+        checkCompletion(); 
     }
 
     // Handles click on a definition element
     function handleDefinitionClick(e) {
-        if (!quizActive) return; // Ignore clicks if quiz is not active
+        if (!quizActive) return; 
         const definition = e.target;
-        // If already matched (pink background), do nothing
         if (definition.classList.contains('bg-pink-300')) return;
 
-        // If a word is selected (has green highlight), try to match it with the clicked definition
         if (selectedWord) {
-            // Remove 'selected' class from the word
             selectedWord.classList.remove('bg-green-400', 'border-green-500');
 
             // Apply 'matched' styling to both word and definition
@@ -363,17 +354,15 @@
             matchedPairs.set(selectedWord, definition);
             selectedWord = null; // Clear selected word
         }
-        checkCompletion(); // Check if submit button state needs to change
+        checkCompletion(); 
     }
 
     // Checks if all words have been matched and updates submit button state
     function checkCompletion() {
         const words = document.querySelectorAll('#wordColumn .word');
-        // Check if all displayed words have the 'matched' pink background class
         const allWordsMatched = Array.from(words).every(word => word.classList.contains('bg-pink-300'));
         const submitButton = document.getElementById('submitButton');
 
-        // Enable/disable submit button and change its appearance
         if (allWordsMatched && quizActive) {
             submitButton.classList.remove('bg-gray-300', 'text-gray-700', 'cursor-not-allowed');
             submitButton.classList.add('bg-green-500', 'hover:bg-green-600', 'text-white', 'cursor-pointer');
@@ -387,7 +376,7 @@
 
     // Handles quiz submission
     function submitQuiz() {
-        if (!quizActive) return; // Prevent submission if quiz is not active (e.g., already submitted/timed out)
+        if (!quizActive) return; 
 
         const studentName = nameInput.value.trim();
         if (!studentName) {
@@ -404,10 +393,8 @@
         // Calculate time
         let timeDiffSeconds;
         if (quizStartTime) {
-            // Time in seconds
             timeDiffSeconds = Math.floor((quizEndTime - quizStartTime) / 1000); 
         } else {
-            // Fallback if quizStartTime somehow isn't set, though it should be by startTimer
             timeDiffSeconds = totalTime - remainingTime;
         }
         
@@ -416,7 +403,6 @@
 
         let correctCount = 0;
         let totalWordsInQuiz = 0; 
-        // **MODIFIED: Logic to collect only INCORRECT answers**
         let incorrectAnswersList = "";
 
         document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
@@ -435,9 +421,10 @@
             
             // If the answer is INCORRECT (or unmatched), add it to the list of incorrect answers
             if (!isCorrect) {
-                 // Format: "Word should be matched with Definition"
+                // Find the original word object from the full list (to get word and correct definition)
                 const wordObj = wordsInCurrentQuiz.find(item => item.word === wordElement.textContent);
                 if (wordObj) {
+                    // Format: "Word should be matched with Definition"
                     incorrectAnswersList += `${wordObj.word} should be matched with ${wordObj.definition}\n`;
                 }
             }
@@ -455,15 +442,14 @@
             incorrectMessage = `
 ---
 
-### Incorrect Matches & Correct Answers (错题与正确匹配):
-
+<h3>Incorrect Matches & Correct Answers (错题与正确匹配):</h3>
 ${incorrectAnswersList}
             `;
         } else {
             incorrectMessage = `
 ---
 
-### Incorrect Matches: 🥳 All correct! (错题: 🥳 全部正确!)
+<h3>Incorrect Matches: 🥳 All correct! (错题: 🥳 全部正确!)</h3>
             `;
         }
 
@@ -483,10 +469,10 @@ ${incorrectMessage}
 
     // Starts the countdown timer
     function startTimer() {
-        clearInterval(timerInterval); // Clear any existing timer
-        remainingTime = totalTime; // Reset time
-        updateTimerDisplay(); // Initial display
-        quizStartTime = new Date(); // Use the current time as the actual start time
+        clearInterval(timerInterval); 
+        remainingTime = totalTime; 
+        updateTimerDisplay(); 
+        quizStartTime = new Date(); 
         
         timerInterval = setInterval(() => {
             remainingTime--;
@@ -517,11 +503,15 @@ ${incorrectMessage}
         return array;
     }
 
-    // Displays a custom modal message
+    // **MODIFIED: Displays a custom modal message using innerHTML and replacing \n with <br>**
     function showMessage(title, message) {
         document.getElementById('modalTitle').textContent = title;
-        // Note: setting textContent here ensures HTML and Markdown are not rendered.
-        document.getElementById('modalMessage').textContent = message; 
+        
+        // Replace \n with <br> and use innerHTML to ensure line breaks are displayed correctly
+        // I also replace '---' with an actual <hr> for visual separation.
+        const formattedMessage = message.replace(/\n/g, '<br>').replace(/---/g, '<hr>');
+
+        document.getElementById('modalMessage').innerHTML = formattedMessage; 
 
         // Clear previous buttons from the modal content if they are not the default 'Close' button
         const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
@@ -552,7 +542,8 @@ ${incorrectMessage}
     function resetQuiz() {
         // Modify modal to include confirmation buttons for reset
         const modalMessageDiv = document.getElementById('modalMessage');
-        modalMessageDiv.textContent = 'Are you sure you want to reset the quiz? Your current progress will be lost.';
+        // Use innerHTML for reset confirmation message
+        modalMessageDiv.innerHTML = 'Are you sure you want to reset the quiz? Your current progress will be lost.';
                                      
         const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
         
