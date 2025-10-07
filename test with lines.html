@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>25-26T1 Week1-2</title>
+    <title>25-26T1 Week1-NewVocab</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles to enhance Tailwind defaults and ensure responsiveness */
@@ -71,7 +71,7 @@
 <body class="selection:bg-blue-200">
     <div id="quiz-main-container" class="bg-white p-6 md:p-10 rounded-xl shadow-lg w-full max-w-4xl space-y-6">
         <div class="text-center space-y-4">
-            <h1 id="dateHeading" class="text-3xl md:text-4xl font-extrabold text-gray-800"></h1>
+            <h1 id="dateHeading" class="text-3xl md:text-4xl font-extrabold text-gray-800">IELTS Vocabulary Matching Quiz (15 words)</h1>
             <div id="timer" class="text-4xl font-bold text-blue-600">04:00</div>
             <input type="text" id="studentName" placeholder="Enter your name"
                    class="w-full md:w-1/2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg shadow-sm"
@@ -116,44 +116,119 @@
     </div>
 
     <script>
-        // Vocabulary data for the quiz
+        // --- 用户的更新词汇数据 ---
         const vocabulary = [
-            { word: "recall", definition: "(v.) to bring back to mind; remember" },
-            { word: "derive", definition: "(v.) to obtain something from (a specified source)" },
-            { word: "tendency", definition: "(n.) an inclination to do something" },
-            { word: "ultimate", definition: "(adj.) being or happening at the end of a process; final" },
-            { word: "navigate", definition: "(v.) to find one's way through" },
-            { word: "retain", definition: "(v.) to continue to have (something); keep possession of" },
-            { word: "vastly", definition: "(adv.) to an exceedingly great extent or degree; immensely" },
-            { word: "ambiguous", definition: "(adj.) open to more than one interpretation; having a double meaning" },
-            { word: "portion", definition: "(n.) a part of a food serving intended for one person" },
-            { word: "furious", definition: "(adj.) extremely angry; enraged" },
-            { word: "persist", definition: "(v.) continue to exist or occur over a prolonged period" },
-            { word: "cram", definition: "(v.) to prepare for a test or examination by learning a great deal of information in a very short period" },
-            { word: "interleaving", definition: "(v.) to insert (something) between other things; interrupt with" },
-            { word: "retention", definition: "(n.) the continued possession, control, or preservation of something" },
-            { word: "counterintuitive", definition: "(adj.) contrary to what intuition would suggest" },
-            { word: "deploy", definition: "(v.) To bring (resources) into effective action" },
-            { word: "identify", definition: "(v.) establish or indicate who or what (someone or something) is" },
+            { word: "conceal", definition: "隐藏" },
+            { word: "claim", definition: "声称" },
+            { word: "tone", definition: "语气" },
+            { word: "range", definition: "范围" },
+            { word: "import", definition: "进口" },
+            { word: "pledge", definition: "保证" },
+            { word: "thrive", definition: "繁荣" },
+            { word: "starve", definition: "挨饿" },
+            { word: "imply", definition: "暗示" },
+            { word: "density", definition: "密度" },
+            { word: "strain", definition: "压力" },
+            { word: "leap", definition: "跳跃" },
+            { word: "scold", definition: "责骂" },
+            { word: "perceive", definition: "察觉" },
+            { word: "stimulate", definition: "刺激" },
+            { word: "digest", definition: "消化" },
+            { word: "prior", definition: "先前的" },
+            { word: "urge", definition: "催促" },
+            { word: "obligation", definition: "义务" },
+            { word: "panic", definition: "恐慌" },
+            { word: "spare", definition: "饶恕" },
+            { word: "crucial", definition: "至关重要的" },
+            { word: "digital", definition: "数字的" },
+            { word: "glance", definition: "瞥一眼" },
+            { word: "resume", definition: "恢复" },
+            { word: "retreat", definition: "撤退" },
+            { word: "fade", definition: "褪色" },
+            { word: "tender", definition: "温柔的" },
+            { word: "harmony", definition: "和谐" },
+            { word: "appeal", definition: "呼吁" },
+            { word: "manual", definition: "手工的" },
+            { word: "appetite", definition: "食欲" },
+            { word: "convert", definition: "转换" },
+            { word: "pump", definition: "抽水" },
+            { word: "counsel", definition: "建议" },
+            { word: "renovate", definition: "翻新" },
+            { word: "liberal", definition: "自由的" },
+            { word: "remote", definition: "遥远的" },
+            { word: "facility", definition: "设施" },
+            { word: "peculiar", definition: "奇怪的" },
+            { word: "stem", definition: "源于" },
+            { word: "margin", definition: "边缘" },
+            { word: "block", definition: "阻碍" },
+            { word: "infect", definition: "感染" },
+            { word: "illusion", definition: "幻觉" },
+            { word: "fierce", definition: "凶猛的" },
+            { word: "strip", definition: "剥去" },
+            { word: "fuss", definition: "大惊小怪" },
+            { word: "tremendous", definition: "巨大的" },
+            { word: "exploit", definition: "利用" },
+            { word: "recession", definition: "衰退" },
+            { word: "hinder", definition: "阻碍" },
+            { word: "context", definition: "背景" },
+            { word: "prospect", definition: "前景" },
+            { word: "inevitable", definition: "不可避免的" },
+            { word: "discrimination", definition: "歧视" },
+            { word: "optimism", definition: "乐观" },
+            { word: "postpone", definition: "推迟" },
+            { word: "incentive", definition: "激励" },
+            { word: "victim", definition: "受害者" },
+            { word: "inspire", definition: "鼓舞" },
+            { word: "virtual", definition: "虚拟的" },
+            { word: "dare", definition: "敢于" },
+            { word: "in that", definition: "因为" },
+            { word: "vague", definition: "模糊的" },
+            { word: "capacity", definition: "能力" },
+            { word: "discard", definition: "丢弃" },
+            { word: "incident", definition: "事件" },
+            { word: "instinct", definition: "本能" },
+            { word: "rank", definition: "等级" },
+            { word: "emerge", definition: "出现" },
+            { word: "coordinate", definition: "协调" },
+            { word: "temporary", definition: "临时的" },
+            { word: "aviation", definition: "航空" },
+            { word: "detect", definition: "侦测" },
+            { word: "slim", definition: "苗条的" },
+            { word: "retain", definition: "保留" },
+            { word: "latter", definition: "后者的" },
+            { word: "poverty", definition: "贫穷" },
+            { word: "bargain", definition: "交易" },
+            { word: "orbit", definition: "轨道" },
+            { word: "dismiss", definition: "解雇" },
+            { word: "constitute", definition: "构成" },
+            { word: "reverse", definition: "颠倒" },
+            { word: "evolve", definition: "进化" },
+            { word: "fatigue", definition: "疲劳" },
+            { word: "dispose", definition: "处理" },
+            { word: "confront", definition: "面对" },
+            { word: "dilemma", definition: "困境" },
+            { word: "abundant", definition: "丰富的" },
+            { word: "wander", definition: "漫步" }
         ];
+        // --- 词汇数据结束 ---
 
-        let selectedWord = null; // Stores the currently selected word DOM element
-        let matchedPairs = new Map(); // Stores matched word-definition DOM element pairs
-        let startTime; // Timestamp when the quiz starts
-        let timerInterval; // Interval ID for the timer
-        const totalTime = 240; // Total time for the quiz in seconds (4 minutes)
-        let remainingTime = totalTime; // Remaining time in seconds
-        let quizActive = false; // Flag to indicate if the quiz is active
+        // 设置从词汇库中抽取的词汇数量
+        const QUIZ_WORD_COUNT = 15; 
+
+        let selectedWord = null;
+        let matchedPairs = new Map();
+        let startTime;
+        let timerInterval;
+        const totalTime = 240; // 4 minutes
+        let remainingTime = totalTime;
+        let quizActive = false;
 
         // --- Line Drawing Variables and Setup ---
         const canvas = document.getElementById('lineCanvas');
         const ctx = canvas.getContext('2d');
         const columnsContainer = document.querySelector('.quiz-columns-container');
         
-        // Tracks the single line currently being drawn (from selected word to cursor/definition)
         let lineData = null; 
-        
-        // Map to store coordinates for permanently matched (pink) lines
         const matchLines = new Map(); 
 
         // Function to initialize or reset the quiz
@@ -165,34 +240,27 @@
             selectedWord = null;
             document.getElementById('submitButton').classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
             document.getElementById('submitButton').classList.add('bg-gray-300', 'text-gray-700');
-            document.getElementById('submitButton').disabled = true; // Disable submit button initially
-            document.getElementById('studentName').value = ''; // Clear student name
-
+            document.getElementById('submitButton').disabled = true;
+            document.getElementById('studentName').value = '';
+            
             // Clear all line data and redraw the canvas
             matchLines.clear();
             clearLine(); 
-            // Also ensure selectedWord is cleared of any highlight
             if (selectedWord) {
                 selectedWord.classList.remove('bg-green-400', 'border-green-500'); 
                 selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
             }
 
 
-            // Set current date heading
-            document.getElementById('dateHeading').textContent = '25-26T1 Week1-2';
+            // Set heading
+            document.getElementById('dateHeading').textContent = 'IELTS Vocabulary Matching Quiz (' + QUIZ_WORD_COUNT + ' words)';
 
-            // Randomly select 10 words and their definitions
-            const selectedWordsData = shuffleArray(vocabulary).slice(0, 10);
+            // Randomly select words and their definitions
+            const selectedWordsData = shuffleArray(vocabulary).slice(0, QUIZ_WORD_COUNT);
             const correctDefinitionsData = selectedWordsData.map(item => item.definition);
 
-            // Randomly select 0 distractor definitions
-            const extraDefinitionsData = shuffleArray(vocabulary)
-                .filter(item => !correctDefinitionsData.includes(item.definition)) 
-                .slice(0, 0)
-                .map(item => item.definition);
-
-            // Combine all definitions (10 correct + 0 distractors) and shuffle them
-            const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
+            // No distractor definitions used (as per your initial setup)
+            const allDefinitions = shuffleArray(correctDefinitionsData);
 
             // Display words in the word column
             selectedWordsData.forEach(item => {
@@ -234,6 +302,7 @@
         function getElementLinePoint(element, isWord) {
             const rect = element.getBoundingClientRect();
             const containerRect = columnsContainer.getBoundingClientRect();
+            // Word Column (isWord=true): use right edge, Definition Column (isWord=false): use left edge
             const x = isWord ? rect.right - containerRect.left : rect.left - containerRect.left;
             const y = rect.top + rect.height / 2 - containerRect.top;
             return { x, y };
@@ -259,18 +328,22 @@
         // Draws all the permanently matched lines (pink)
         function drawMatchedLines() {
             matchLines.forEach((coords, wordElement) => {
-                // Check if the word element is still present in the DOM before drawing
-                if (document.body.contains(wordElement)) {
-                    ctx.beginPath();
-                    ctx.moveTo(coords.startX, coords.startY);
-                    ctx.lineTo(coords.endX, coords.endY);
-                    ctx.strokeStyle = '#EC4899'; // Pink color for matched pair
+                // Determine color based on final state for submission only
+                const isCorrect = (wordElement.classList.contains('bg-green-200') && !wordElement.classList.contains('bg-red-200'));
+                const isIncorrect = wordElement.classList.contains('bg-red-200');
+
+                ctx.beginPath();
+                ctx.moveTo(coords.startX, coords.startY);
+                ctx.lineTo(coords.endX, coords.endY);
+                
+                if (!quizActive) { // If quiz is submitted, use final colors
+                    ctx.strokeStyle = isCorrect ? '#059669' : '#EF4444'; // Dark green/red for result
+                    ctx.lineWidth = 3;
+                } else { // During quiz, use pink
+                    ctx.strokeStyle = '#EC4899'; 
                     ctx.lineWidth = 2;
-                    ctx.stroke();
-                } else {
-                    // Remove entry if element is no longer there (shouldn't happen on this quiz)
-                    matchLines.delete(wordElement);
                 }
+                ctx.stroke();
             });
         }
         
@@ -278,7 +351,6 @@
         function drawLines() {
             clearLine(); // Clears all, redraws matched
             if (lineData) {
-                // Redraw active line over the matched lines
                 drawActiveLine(lineData.startX, lineData.startY, lineData.endX, lineData.endY);
             }
         }
@@ -286,21 +358,19 @@
         // Handles mouse movement to draw the line to the cursor
         function handleMouseMove(e) {
             if (selectedWord) {
-                // Get coordinates relative to the canvas/container
                 const containerRect = columnsContainer.getBoundingClientRect();
                 const mouseX = e.clientX - containerRect.left;
                 const mouseY = e.clientY - containerRect.top;
 
                 const wordPoint = getElementLinePoint(selectedWord, true);
                 
-                // Update active line data to current cursor position
                 lineData = {
                     startX: wordPoint.x,
                     startY: wordPoint.y,
                     endX: mouseX,
                     endY: mouseY
                 };
-                drawLines(); // Redraw everything
+                drawLines();
             }
         }
         
@@ -310,16 +380,14 @@
         // Handles click on a word element
         function handleWordClick(e) {
             const word = e.target;
-            // If already matched (pink background), do nothing
-            if (word.classList.contains('bg-pink-300')) {
-                clearLine(); // Still clear any active line
+            if (word.classList.contains('bg-pink-300') || !quizActive) {
+                clearLine();
                 return;
             }
 
-            // Remove 'selected' class (green highlight) from previously selected word
             if (selectedWord && selectedWord !== word) {
-                selectedWord.classList.remove('bg-green-400', 'border-green-500'); // Remove green highlight
-                selectedWord.classList.add('bg-yellow-200', 'border-yellow-300'); // Restore yellow
+                selectedWord.classList.remove('bg-green-400', 'border-green-500');
+                selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
             }
             
             // Toggle selection
@@ -327,13 +395,12 @@
                 selectedWord.classList.remove('bg-green-400', 'border-green-500');
                 selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
                 selectedWord = null;
-                clearLine(); // Clear line if deselected
+                clearLine();
             } else {
-                // Set new selected word and highlight it
                 selectedWord = word;
-                selectedWord.classList.add('bg-green-400', 'border-green-500'); // Add green highlight
-                selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300'); // Remove yellow
-                // Initial line drawing to cursor will happen on mousemove
+                selectedWord.classList.add('bg-green-400', 'border-green-500');
+                selectedWord.classList.remove('bg-yellow-200', 'border-yellow-300');
+                // Mousemove will draw the line
             }
         }
 
@@ -342,52 +409,52 @@
             e.preventDefault();
             const word = e.target;
 
-            // Clear any active line
+            // Clear any active line/selection
+            if(selectedWord) {
+                selectedWord.classList.remove('bg-green-400', 'border-green-500'); 
+                selectedWord.classList.add('bg-yellow-200', 'border-yellow-300');
+            }
             selectedWord = null;
-            word.classList.remove('bg-green-400', 'border-green-500'); 
-            word.classList.add('bg-yellow-200', 'border-yellow-300');
-            clearLine(); 
+            clearLine();
 
-            // If the word is currently matched (has pink background), unmatch it
-            if (word.classList.contains('bg-pink-300')) {
+            // If the word is currently matched, unmatch it
+            if (word.classList.contains('bg-pink-300') && quizActive) {
                 const definition = matchedPairs.get(word);
                 if (definition) {
-                    // Remove 'matched' styling from both word and definition
                     definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
                     definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
-                    matchedPairs.delete(word); // Remove from matched pairs map
+                    matchedPairs.delete(word);
                     matchLines.delete(word); // Remove line data
                 }
                 word.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
                 word.classList.add('bg-yellow-200', 'hover:bg-yellow-300', 'border-yellow-300', 'cursor-pointer');
             }
-            drawLines(); // Redraw to remove unmatch line
+            drawLines();
             checkCompletion();
         }
 
         // Handles click on a definition element
         function handleDefinitionClick(e) {
             const definition = e.target;
-            // If already matched (pink background), do nothing
-            if (definition.classList.contains('bg-pink-300')) return;
+            if (definition.classList.contains('bg-pink-300') || !quizActive) return;
 
-            // If a word is selected (has green highlight), try to match it with the clicked definition
+            // Match if a word is selected
             if (selectedWord) {
-                // Remove 'selected' class from the word
-                selectedWord.classList.remove('bg-green-400', 'border-green-500');
+                // 1. Remove 'selected' class from the word
+                selectedWord.classList.remove('bg-green-400', 'border-green-500', 'bg-yellow-200', 'border-yellow-300');
                 
-                // Apply 'matched' styling to both word and definition
+                // 2. Apply 'matched' styling
                 selectedWord.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
                 definition.classList.add('bg-pink-300', 'border-pink-400', 'cursor-default');
                 
-                // Remove hover effects for matched items
+                // 3. Remove hover effects for matched items
                 selectedWord.classList.remove('hover:bg-yellow-300');
                 definition.classList.remove('hover:bg-blue-300');
                 
-                // Store the matched pair
+                // 4. Store the matched pair
                 matchedPairs.set(selectedWord, definition);
 
-                // --- Store the line coordinates for the matched pair ---
+                // 5. Store the line coordinates for the matched pair
                 const wordPoint = getElementLinePoint(selectedWord, true);
                 const definitionPoint = getElementLinePoint(definition, false);
                 matchLines.set(selectedWord, {
@@ -400,7 +467,7 @@
                 selectedWord = null; // Clear selected word
                 clearLine(); // Clear active line and redraw matched lines
             }
-            checkCompletion(); // Check if submit button state needs to change
+            checkCompletion();
         }
 
         // Checks if all words have been matched and updates submit button state
@@ -426,7 +493,7 @@
 
             const studentName = document.getElementById('studentName').value.trim();
             if (!studentName) {
-                showMessage('Missing Information', 'Please enter your name before submitting the quiz.');
+                showMessage('Missing Information', '请在提交测验前输入你的名字 (Please enter your name before submitting the quiz)。');
                 return;
             }
 
@@ -435,11 +502,11 @@
             startTime = null;
             quizActive = false;
             
-            // Clear the canvas completely after submission
+            // Clear the canvas completely before final result drawing
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
             const endTime = new Date();
-            const timeDiff = (endTime - startTime) / 1000; // Time in seconds
+            const timeDiff = (endTime - startTime) / 1000;
             const minutes = Math.floor(timeDiff / 60);
             const seconds = Math.floor(timeDiff % 60);
 
@@ -449,44 +516,35 @@
 
             document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
                 totalWordsInQuiz++;
-                // Check if this word was matched and if the match is correct
+                
                 if (matchedPairs.has(wordElement)) {
                     const matchedDefinitionElement = matchedPairs.get(wordElement);
+                    
+                    // Remove all temporary colors
+                    wordElement.classList.remove('bg-pink-300', 'border-pink-400');
+                    matchedDefinitionElement.classList.remove('bg-pink-300', 'border-pink-400');
+
+
                     if (matchedDefinitionElement.textContent === wordElement.dataset.definition) {
                         correctCount++;
-                        // Highlight correct matches in a final green color on the screen
-                        wordElement.classList.remove('bg-pink-300', 'border-pink-400');
+                        // Highlight correct matches in a final green color
                         wordElement.classList.add('bg-green-200', 'border-green-400');
-                        matchedDefinitionElement.classList.remove('bg-pink-300', 'border-pink-400');
                         matchedDefinitionElement.classList.add('bg-green-200', 'border-green-400');
                     } else {
-                        errors.push(`Incorrect: "${wordElement.textContent}" was matched with "${matchedDefinitionElement.textContent}"`);
+                        errors.push(`错误: "${wordElement.textContent}" 匹配了 "${matchedDefinitionElement.textContent}" (正确答案是: ${wordElement.dataset.definition})`);
                         // Highlight incorrect matches in a final red color
-                        wordElement.classList.remove('bg-pink-300', 'border-pink-400');
                         wordElement.classList.add('bg-red-200', 'border-red-400');
-                        matchedDefinitionElement.classList.remove('bg-pink-300', 'border-pink-400');
                         matchedDefinitionElement.classList.add('bg-red-200', 'border-red-400');
                     }
                 } else {
-                    errors.push(`Unmatched: "${wordElement.textContent}"`);
+                    errors.push(`未匹配: "${wordElement.textContent}"`);
+                    // Unmatched words stay yellow/default
+                    wordElement.classList.remove('bg-pink-300', 'border-pink-400');
+                    wordElement.classList.add('bg-yellow-200', 'border-yellow-300');
                 }
             });
 
-            // Recalculate and redraw the lines with the final color coding
-            matchLines.clear();
-            document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
-                if (matchedPairs.has(wordElement)) {
-                    const matchedDefinitionElement = matchedPairs.get(wordElement);
-                    const wordPoint = getElementLinePoint(wordElement, true);
-                    const definitionPoint = getElementLinePoint(matchedDefinitionElement, false);
-                    matchLines.set(wordElement, {
-                        startX: wordPoint.x,
-                        startY: wordPoint.y,
-                        endX: definitionPoint.x,
-                        endY: definitionPoint.y
-                    });
-                }
-            });
+            // Redraw the lines with the final color coding
             drawMatchedLines();
 
 
@@ -497,29 +555,29 @@
             
             // Construct the result message for the modal
             let resultMessage = `
-                Page Title: ${pageTitle}
-                Submission Time: ${submitTime}
-                Student Name: ${studentName}
-                Completion Time: ${minutes}m ${seconds}s
-                Correct Matches: ${correctCount}/${totalWordsInQuiz}
-                Accuracy: ${accuracy.toFixed(2)}%
+                页面标题 (Page Title): ${pageTitle}
+                提交时间 (Submission Time): ${submitTime}
+                学生姓名 (Student Name): ${studentName}
+                完成用时 (Completion Time): ${minutes}分 ${seconds}秒
+                正确匹配 (Correct Matches): ${correctCount}/${totalWordsInQuiz}
+                准确率 (Accuracy): ${accuracy.toFixed(2)}%
             `;
 
             if (errors.length > 0) {
-                resultMessage += `\n\nErrors:\n${errors.join('\n')}`;
+                resultMessage += `\n\n错误详情 (Errors):\n${errors.join('\n')}`;
             } else {
-                resultMessage += `\n\nErrors: None 🎉`;
+                resultMessage += `\n\n错误 (Errors): None 🎉`;
             }
 
-            showMessage('Quiz Results', resultMessage);
+            showMessage('测验结果 (Quiz Results)', resultMessage);
         }
 
         // Starts the countdown timer
         function startTimer() {
-            clearInterval(timerInterval); // Clear any existing timer
-            remainingTime = totalTime; // Reset time
-            updateTimerDisplay(); // Initial display
-            startTime = new Date(); // Reset start time when timer starts
+            clearInterval(timerInterval);
+            remainingTime = totalTime;
+            updateTimerDisplay();
+            startTime = new Date();
             
             timerInterval = setInterval(() => {
                 remainingTime--;
@@ -527,8 +585,7 @@
 
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
-                    showMessage('Time\'s Up!', 'Your time has run out. The quiz has been automatically submitted.');
-                    // Must call setTimeout to allow the current function to finish before submission logic runs
+                    showMessage('时间到! (Time\'s Up!)', '时间已用完。测验已自动提交。');
                     setTimeout(submitQuiz, 10); 
                 }
             }, 1000);
@@ -567,14 +624,12 @@
             
             const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
             
-            // Remove all buttons except for the default 'Close' button functionality
             Array.from(modalContentDiv.querySelectorAll('button')).forEach(button => {
                 if (!button.onclick.toString().includes('closeModal()')) {
                      button.remove();
                 }
             });
             
-            // Ensure a single 'Close' button is present and visible
             let closeButton = modalContentDiv.querySelector('button[onclick="closeModal()"]');
             if (!closeButton) {
                 closeButton = document.createElement('button');
@@ -585,50 +640,46 @@
             }
             closeButton.style.display = 'inline-block';
 
-            document.getElementById('customModal').classList.remove('hidden'); // Show the modal
+            document.getElementById('customModal').classList.remove('hidden');
         }
 
         // Closes the custom modal message
         function closeModal() {
-            document.getElementById('customModal').classList.add('hidden'); // Hide the modal
+            document.getElementById('customModal').classList.add('hidden');
         }
 
         // Resets the quiz to its initial state
         function resetQuiz() {
-            // Modify modal to include confirmation buttons for reset
             const modalMessageDiv = document.getElementById('modalMessage');
             modalMessageDiv.innerHTML = '<p class="text-base text-gray-700 leading-relaxed mb-6 whitespace-pre-line text-left">' + 
-                                     'Are you sure you want to reset the quiz? Your current progress will be lost.' +
+                                     '你确定要重置测验吗? 你当前的进度将会丢失。' +
                                      '</p>';
             const modalContentDiv = document.getElementById('customModal').querySelector('.modal-content');
             
-            // Remove existing buttons
             Array.from(modalContentDiv.querySelectorAll('button')).forEach(button => button.remove());
 
-            // Add confirm and cancel buttons for the reset action
             const confirmButton = document.createElement('button');
-            confirmButton.textContent = 'Yes, Reset';
+            confirmButton.textContent = '确定重置 (Yes, Reset)';
             confirmButton.className = 'px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 text-lg mr-2';
             confirmButton.onclick = () => {
                 clearInterval(timerInterval);
-                initQuiz(); // Re-initialize everything
+                initQuiz();
                 closeModal();
             };
 
             const cancelButton = document.createElement('button');
-            cancelButton.textContent = 'Cancel';
+            cancelButton.textContent = '取消 (Cancel)';
             cancelButton.className = 'px-6 py-3 bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-md transition-all duration-300 ease-in-out hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 text-lg';
             cancelButton.onclick = closeModal;
 
             modalContentDiv.appendChild(confirmButton);
             modalContentDiv.appendChild(cancelButton);
-            document.getElementById('modalTitle').textContent = 'Confirm Reset';
+            document.getElementById('modalTitle').textContent = '确认重置 (Confirm Reset)';
             document.getElementById('customModal').classList.remove('hidden');
         }
 
         // Add event listener for window resize to keep the canvas aligned
         window.addEventListener('resize', () => {
-            // Resize canvas on window resize and redraw all lines
             resizeCanvas(); 
             clearLine(); 
         });
