@@ -197,7 +197,8 @@
     let quizStartTime; // Timestamp when the quiz starts
     let quizEndTime; // Timestamp when the quiz ends or is submitted
     let timerInterval; // Interval ID for the timer
-    const totalTime = 240; // Total time for the quiz in seconds (4 minutes)
+    const **totalWords** = **15**; // **已修改: 每次测验的单词量**
+    const **totalTime** = **240**; // **已修改: 测验总时间为 4 分钟 (240 秒)**
     let remainingTime = totalTime; // Remaining time in seconds
     let quizActive = false; // Flag to indicate if the quiz is active
     let nameInput = document.getElementById('studentName'); // Caching the name input element
@@ -210,17 +211,17 @@
         document.getElementById('definitionColumn').innerHTML = '';
         matchedPairs.clear();
         selectedWord = null;
-        wordsInCurrentQuiz = []; // **RESET the words list for the new quiz**
+        wordsInCurrentQuiz = []; // RESET the words list for the new quiz
         document.getElementById('submitButton').classList.remove('bg-green-500', 'hover:bg-green-600', 'text-white');
         document.getElementById('submitButton').classList.add('bg-gray-300', 'text-gray-700');
         document.getElementById('submitButton').disabled = true; // Disable submit button initially
 
-        // Set current date heading - MODIFIED HERE to remove dynamic date
-        document.getElementById('dateHeading').textContent = '25-26T1 Week1-2'; // Changed to your desired title
+        // Set current date heading
+        document.getElementById('dateHeading').textContent = '25-26T1 Week1-2';
 
-        // Randomly select 10 words and their definitions
-        const selectedWordsData = shuffleArray(vocabulary).slice(0, 10);
-        wordsInCurrentQuiz = selectedWordsData; // **STORE the selected words data**
+        // Randomly select 15 words and their definitions
+        const selectedWordsData = shuffleArray(vocabulary).slice(0, totalWords); // 使用 totalWords 常量
+        wordsInCurrentQuiz = selectedWordsData; // STORE the selected words data
         const correctDefinitionsData = selectedWordsData.map(item => item.definition);
 
         // Randomly select 0 distractor definitions (as per your previous instruction)
@@ -229,7 +230,7 @@
             .slice(0, 0)
             .map(item => item.definition);
 
-        // Combine all definitions (10 correct + 0 distractors) and shuffle them
+        // Combine all definitions (15 correct + 0 distractors) and shuffle them
         const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
 
         // Display words in the word column
@@ -251,7 +252,7 @@
                                  'bg-blue-200 hover:bg-blue-300 shadow-sm border border-blue-300';
             div.textContent = definition;
             div.addEventListener('click', handleDefinitionClick);
-            div.addEventListener('dblclick', handleDefinitionDoubleClick); // **ADDED: Double-click handler for definitions**
+            div.addEventListener('dblclick', handleDefinitionDoubleClick); // Double-click handler for definitions
             document.getElementById('definitionColumn').appendChild(div);
         });
 
@@ -287,7 +288,7 @@
         unmatchElement(word, 'word');
     }
 
-    // **NEW: Handles double-click on a definition element (for unmatching)**
+    // Handles double-click on a definition element (for unmatching)
     function handleDefinitionDoubleClick(e) {
         if (!quizActive) return; // Ignore clicks if quiz is not active
         e.preventDefault();
@@ -304,9 +305,6 @@
                 // Restore definition style
                 definition.classList.remove('bg-pink-300', 'border-pink-400', 'cursor-default');
                 definition.classList.add('bg-blue-200', 'hover:bg-blue-300', 'border-blue-300', 'cursor-pointer');
-                // Remove definition from map (need to reverse find word)
-                // The current Map is word -> definition. To remove by definition, we must iterate.
-                // Since the Map keys are word elements, we can simply delete the key 'element'.
                 matchedPairs.delete(element);
             }
             // Restore word style
@@ -417,32 +415,58 @@
         const seconds = Math.floor(timeDiffSeconds % 60); 
 
         let correctCount = 0;
-        let totalWordsInQuiz = 0; // To count only the words initially displayed for matching
+        let totalWordsInQuiz = 0; 
+        // **MODIFIED: Logic to collect only INCORRECT answers**
+        let incorrectAnswersList = "";
 
         document.querySelectorAll('#wordColumn .word').forEach(wordElement => {
             totalWordsInQuiz++;
+            const correctDefinition = wordElement.dataset.definition;
+            let isCorrect = false;
+
             // Check if this word was matched and if the match is correct
             if (matchedPairs.has(wordElement)) {
                 const matchedDefinitionElement = matchedPairs.get(wordElement);
-                if (matchedDefinitionElement.textContent === wordElement.dataset.definition) {
+                if (matchedDefinitionElement.textContent === correctDefinition) {
                     correctCount++;
+                    isCorrect = true;
                 }
             } 
+            
+            // If the answer is INCORRECT (or unmatched), add it to the list of incorrect answers
+            if (!isCorrect) {
+                 // Format: "Word should be matched with Definition"
+                const wordObj = wordsInCurrentQuiz.find(item => item.word === wordElement.textContent);
+                if (wordObj) {
+                    incorrectAnswersList += `${wordObj.word} should be matched with ${wordObj.definition}\n`;
+                }
+            }
         });
 
-        // Calculate accuracy based on the number of words displayed in the quiz (which is 10)
+        // Calculate accuracy
         const accuracy = (correctCount / totalWordsInQuiz) * 100;
 
-        const pageTitle = document.getElementById('dateHeading').textContent; // Using the h1 text
+        const pageTitle = document.getElementById('dateHeading').textContent; 
         const submitTime = quizEndTime.toLocaleTimeString('en-US', { hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(/, /g, ' ').replace(/\//g, '-');
         
-        // **MODIFIED: Generate the Correct Answers list in the requested simple format**
-        let correctAnswersList = "";
-        wordsInCurrentQuiz.forEach(item => {
-            // New format: "Word should be matched with Definition"
-            correctAnswersList += `${item.word} should be matched with ${item.definition}\n`;
-        });
-        
+        // Determine the message for incorrect answers section
+        let incorrectMessage;
+        if (incorrectAnswersList) {
+            incorrectMessage = `
+---
+
+### Incorrect Matches & Correct Answers (错题与正确匹配):
+
+${incorrectAnswersList}
+            `;
+        } else {
+            incorrectMessage = `
+---
+
+### Incorrect Matches: 🥳 All correct! (错题: 🥳 全部正确!)
+            `;
+        }
+
         // Construct the result message for the modal
         let resultMessage = `
 Page Title: ${pageTitle}
@@ -451,12 +475,7 @@ Student Name: ${studentName}
 Completion Time: ${timeDiffSeconds}s (${minutes}m ${seconds}s)
 Correct Matches: ${correctCount}/${totalWordsInQuiz}
 Accuracy: ${accuracy.toFixed(2)}%
-
----
-
-Correct Matches (正确匹配):
-
-${correctAnswersList}
+${incorrectMessage}
         `;
 
         showMessage('Quiz Results (测验结果)', resultMessage);
