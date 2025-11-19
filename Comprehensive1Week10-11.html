@@ -6,10 +6,10 @@
     <title>Comprehensive1Week 10-11</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles to enhance Tailwind defaults and ensure responsiveness */
+        /* Custom styles */
         body {
-            font-family: 'Inter', sans-serif; /* Using Inter font */
-            background-color: #f8f8f8; /* Light background */
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -25,24 +25,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+            background-color: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000; /* Ensure it's on top */
-            backdrop-filter: blur(5px); /* Add a blur effect */
+            z-index: 1000;
+            backdrop-filter: blur(5px);
         }
 
         /* Styles for the modal content */
         .modal-content {
             background-color: white;
             padding: 30px;
-            border-radius: 15px; /* Rounded corners for the modal */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             text-align: center;
             max-width: 500px;
             width: 90%;
-            animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
+            animation: fadeIn 0.3s ease-out;
         }
 
         /* Fade-in animation for modal */
@@ -64,11 +64,9 @@
 
         <div class="flex flex-col md:flex-row justify-between gap-6">
             <div class="column flex-1 bg-yellow-50 p-4 rounded-lg shadow-md min-h-[300px] md:min-h-[500px] border border-yellow-200 overflow-auto" id="wordColumn">
-                <p id="wordErrorPlaceholder" class="text-red-500 text-center hidden">Word list loading error.</p>
-            </div>
+                            </div>
             <div class="column flex-1 bg-blue-50 p-4 rounded-lg shadow-md min-h-[300px] md:min-h-[500px] border border-blue-200 overflow-auto" id="definitionColumn">
-                <p id="defErrorPlaceholder" class="text-red-500 text-center hidden">Definition list loading error.</p>
-            </div>
+                            </div>
         </div>
 
         <div class="flex flex-col md:flex-row justify-center gap-4 mt-6">
@@ -95,96 +93,50 @@
                            hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg">
                 Close
             </button>
-        </div>
+                    </div>
     </div>
 
     <script>
-    // Vocabulary data for the quiz
-    // 确保结构是对象数组：[ {word: "x", definition: "y"}, ... ]
+    // 词汇数据 (已移除词性标注)
     const vocabulary = [
-  { word: "trail", definition: "(n.) 小路；踪迹" },
-  { word: "broad", definition: "(adj.) 宽阔的；广泛的" },
-  { word: "tight", definition: "(adj.) 紧的；拮据的" },
-  { word: "permanent", definition: "(adj.) 永久的；固定的" },
-  { word: "inform", definition: "(v.) 通知；告知" },
-  { word: "estimate", definition: "(v.) 估计；估算" },
-  { word: "emerge", definition: "(v.) 出现；浮现" },
-  { word: "evolve", definition: "(v.) 进化；发展" },
-  { word: "maintain", definition: "(v.) 维持；保养" },
-  { word: "thorough", definition: "(adj.) 彻底的；详尽的" },
-  { word: "convince", definition: "(v.) 说服；使确信" },
-  { word: "rare", definition: "(adj.) 稀有的；罕见的" },
-  { word: "fundamental", definition: "(adj.) 基本的；根本的" },
-  { word: "usage", definition: "(n.) 用法；使用" },
-  { word: "carve", definition: "(v.) 雕刻；切开" },
-  { word: "remind", definition: "(v.) 提醒；使想起" },
-  { word: "arrange", definition: "(v.) 安排；整理" },
-  { word: "familiar", definition: "(adj.) 熟悉的；常见的" },
-  { word: "confuse", definition: "(v.) 使困惑；混淆" },
-  { word: "controversial", definition: "(adj.) 有争议的；引起争论的" },
-  { word: "tension", definition: "(n.) 紧张；张力" },
-  { word: "greet", definition: "(v.) 问候；迎接" },
-  { word: "substitute", definition: "(n.) 替代品；替补" },
-  { word: "bonus", definition: "(n.) 奖金；额外好处" },
-  { word: "negotiate", definition: "(v.) 谈判；协商" },
-  { word: "military", definition: "(adj.) 军事的；军用的" },
-  { word: "component", definition: "(n.) 组成部分；零件" },
-  { word: "transfer", definition: "(v.) 转移；调动" },
-  { word: "burst", definition: "(v.) 爆炸；突然发生" },
-  { word: "content", definition: "(adj.) 满足的；知足的" },
-  { word: "trial", definition: "(n.) 试验；审判" },
-  { word: "immigrant", definition: "(n.) 移民；侨民" },
-  { word: "forecast", definition: "(v.) 预测；预报" },
-  { word: "rub", definition: "(v.) 摩擦；揉搓" },
-  { word: "vehicle", definition: "(n.) 车辆；工具" },
-  { word: "detect", definition: "(v.) 察觉；检测" },
-  { word: "approval", definition: "(n.) 批准；赞成" },
-  { word: "digest", definition: "(v.) 消化；领会" },
-  { word: "violent", definition: "(adj.) 暴力的；强烈的" },
-  { word: "distinction", definition: "(n.) 区别；卓越" },
-  { word: "pioneer", definition: "(n.) 先驱；拓荒者" },
-  { word: "bother", definition: "(v.) 打扰；费心" },
-  { word: "currently", definition: "(adv.) 当前；目前" },
-  { word: "generate", definition: "(v.) 产生；生成" },
-  { word: "affection", definition: "(n.) 喜爱；感情" },
-  { word: "blame", definition: "(v.) 责备；归咎于" },
-  { word: "figure", definition: "(n.) 数字；人物" },
-  { word: "previous", definition: "(adj.) 以前的；先前的" }
-  ];
-
-    let selectedWord = null; 
-    let matchedPairs = new Map(); 
-    let quizStartTime; 
-    let quizEndTime; 
-    let timerInterval; 
-    const totalWords = 15; // 每次测验的单词量
-    const totalTime = 240; // 测验总时间为 4 分钟 (240 秒)
-    let remainingTime = totalTime; 
-    let quizActive = false; 
-    let nameInput = document.getElementById('studentName'); 
-    let wordsInCurrentQuiz = []; 
-
-    // Starts the countdown timer
-    function startTimer() {
-        clearInterval(timerInterval); 
-        remainingTime = totalTime; 
-        updateTimerDisplay(); 
-        quizStartTime = new Date(); 
-        
-        timerInterval = setInterval(() => {
-            remainingTime--;
-            updateTimerDisplay();
-
-            if (remainingTime <= 0) {
-                clearInterval(timerInterval);
-                showMessage('Time\'s Up!', 'Your time has run out. The quiz has been automatically submitted.');
-                setTimeout(submitQuiz, 100); 
-            }
-        }, 1000);
-    }
-
-    // Updates the timer display
-    function updateTimerDisplay() {
-        const minutes = Math.floor(remainingTime / 60);
-        const seconds = remainingTime % 60;
-        document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  { word: "trail", definition: "小路；踪迹" },
+  { word: "broad", definition: "宽阔的；广泛的" },
+  { word: "tight", definition: "紧的；拮据的" },
+  { word: "permanent", definition: "永久的；固定的" },
+  { word: "inform", definition: "通知；告知" },
+  { word: "estimate", definition: "估计；估算" },
+  { word: "emerge", definition: "出现；浮现" },
+  { word: "evolve", definition: "进化；发展" },
+  { word: "maintain", definition: "维持；保养" },
+  { word: "thorough", definition: "彻底的；详尽的" },
+  { word: "convince", definition: "说服；使确信" },
+  { word: "rare", definition: "稀有的；罕见的" },
+  { word: "fundamental", definition: "基本的；根本的" },
+  { word: "usage", definition: "用法；使用" },
+  { word: "carve", definition: "雕刻；切开" },
+  { word: "remind", definition: "提醒；使想起" },
+  { word: "arrange", definition: "安排；整理" },
+  { word: "familiar", definition: "熟悉的；常见的" },
+  { word: "confuse", definition: "使困惑；混淆" },
+  { word: "controversial", definition: "有争议的；引起争论的" },
+  { word: "tension", definition: "紧张；张力" },
+  { word: "greet", definition: "问候；迎接" },
+  { word: "substitute", definition: "替代品；替补" },
+  { word: "bonus", definition: "奖金；额外好处" },
+  { word: "negotiate", definition: "谈判；协商" },
+  { word: "military", definition: "军事的；军用的" },
+  { word: "component", definition: "组成部分；零件" },
+  { word: "transfer", definition: "转移；调动" },
+  { word: "burst", definition: "爆炸；突然发生" },
+  { word: "content", definition: "满足的；知足的" },
+  { word: "trial", definition: "试验；审判" },
+  { word: "immigrant", definition: "移民；侨民" },
+  { word: "forecast", definition: "预测；预报" },
+  { word: "rub", definition: "摩擦；揉搓" },
+  { word: "vehicle", definition: "车辆；工具" },
+  { word: "detect", definition: "察觉；检测" },
+  { word: "approval", definition: "批准；赞成" },
+  { word: "digest", definition: "消化；领会" },
+  { word: "violent", definition: "暴力的；强烈的" },
+  { word: "distinction", definition: "区别；卓越" },
+  { word: "pioneer", definition: "先驱；拓荒者" },
