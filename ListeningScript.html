@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易卡拉OK字幕播放器</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h2 { color: #333; }
+
+        /* 控制区域样式 */
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { font-weight: bold; display: block; margin-bottom: 5px; }
+        textarea { width: 100%; height: 100px; border: 1px solid #ccc; border-radius: 5px; padding: 8px; box-sizing: border-box; font-family: monospace;}
+        input[type="file"] { margin-top: 5px; }
+
+        /* 音频播放器样式 */
+        audio { width: 100%; margin-top: 10px; outline: none; }
+
+        /* 字幕显示区域样式 */
+        #lyrics-container {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 600px;
+            background: #222;
+            color: #888; /* 未激活歌词颜色 */
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto; /* 允许滚动 */
+            text-align: center;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            scroll-behavior: smooth;
+        }
+
+        .lyric-line {
+            padding: 10px 5px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .lyric-line:hover { color: #bbb; }
+
+        /* 高亮样式 - 卡拉OK效果 */
+        .lyric-line.active {
+            color: #fff;          /* 高亮文字颜色 */
+            font-size: 22px;      /* 放大当前行 */
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); /* 金色光晕 */
+            transform: scale(1.05);
+        }
+
+        /* 隐藏滚动条但保留功能 */
+        #lyrics-container::-webkit-scrollbar { width: 8px; }
+        #lyrics-container::-webkit-scrollbar-track { background: #333; }
+        #lyrics-container::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h2>🎤 英语跟读播放器 (IELTS Practice)</h2>
+
+    <div class="controls">
+        <div class="input-group">
+            <label>1. 选择音频文件 (mp3/wav):</label>
+            <input type="file" id="audioFile" accept="audio/*">
+        </div>
+        
+        <div class="input-group">
+            <label>2. 粘贴带时间戳的文本 (LRC格式):</label>
+            <textarea id="lrcInput" placeholder="[00:00.00] 粘贴你的字幕内容...&#10;[00:01.50] 第一句歌词..."></textarea>
+        </div>
+
+        <button onclick="loadLyrics()" style="padding: 8px 20px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">加载字幕</button>
+        
+        <audio id="player" controls></audio>
+    </div>
+
+    <div id="lyrics-container">
+        <p style="margin-top: 50px;">请加载音频和字幕...</p>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const audioInput = document.getElementById('audioFile');
+        const lrcInput = document.getElementById('lrcInput');
+        const lyricsContainer = document.getElementById('lyrics-container');
+        
+        let lyricsData = []; // 存储解析后的歌词对象 {time, text}
+
+        // 监听音频文件上传
+        audioInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                player.src = url;
+            }
+        });
+
+        // 解析 LRC 格式
+        function parseLRC(lrcString) {
+            const lines = lrcString.split('\n');
+            const result = [];
+            // 正则匹配时间戳 [mm:ss.xx]
+            const timeReg = /\[(\d{2}):(\d{2})(\.\d{2,3})?\]/;
+
+            lines.forEach(line => {
+                const match = timeReg.exec(line);
+                if (match) {
+                    // 转换为秒
+                    const min = parseInt(match[1]);
+                    const sec = parseInt(match[2]);
+                    const ms = match[3] ? parseFloat(match[3]) : 0;
+                    const time = min * 60 + sec + ms;
+                    const text = line.replace(timeReg, '').trim();
+                    
+                    if (text) {
+                        result.push({ time, text });
+                    }
+                }
+            });
+            return result;
+        }
+
+        // 加载字幕到界面
+        function loadLyrics() {
+            const rawText = lrcInput.value;
+            lyricsData = parseLRC(rawText);
+            
+            lyricsContainer.innerHTML = ''; // 清空旧歌词
+            
+            if (lyricsData.length === 0) {
+                lyricsContainer.innerHTML = '<p>未检测到有效的时间戳字幕。</p>';
+                return;
+            }
+
+            lyricsData.forEach((line, index) => {
+                const div = document.createElement('div');
+                div.className = 'lyric-line';
+                div.dataset.index = index; // 存储索引以便点击跳转
+                div.innerText = line.text;
+                
+                // 点击歌词跳转进度
+                div.addEventListener('click', () => {
+                    player.currentTime = line.time;
+                    player.play();
+                });
+
+                lyricsContainer.appendChild(div);
+            });
+        }
+
+        // 实时同步逻辑
+        player.addEventListener('timeupdate', () => {
+            const currentTime = player.currentTime;
+            
+            // 找到当前时间对应的那一行
+            // 逻辑：找到最后一行 它的时间 <= 当前时间
+            let activeIndex = -1;
+            for (let i = 0; i < lyricsData.length; i++) {
+                if (currentTime >= lyricsData[i].time) {
+                    activeIndex = i;
+                } else {
+                    break; // 因为时间是排序的，后面的一定更大，不用看了
+                }
+            }
+
+            highlightLine(activeIndex);
+        });
+
+        function highlightLine(index) {
+            // 移除所有高亮
+            const lines = document.querySelectorAll('.lyric-line');
+            lines.forEach(line => line.classList.remove('active'));
+
+            if (index !== -1 && lines[index]) {
+                const activeLine = lines[index];
+                activeLine.classList.add('active');
+
+                // 自动滚动：保持高亮行在容器中间
+                activeLine.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
