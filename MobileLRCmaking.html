@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LRC 字幕打点工具 (手机/电脑通用版)</title>
+    <title>LRC 打点工具 (修复增强版)</title>
     <style>
-        /* 基础样式 */
+        /* 基础样式保持不变 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #eef2f5;
@@ -15,9 +15,8 @@
             padding: 15px;
             height: 100vh;
             box-sizing: border-box;
-            overflow: hidden; /* 防止手机上弹性滚动 */
+            overflow: hidden;
         }
-
         .container {
             background: white;
             padding: 20px;
@@ -31,95 +30,31 @@
             height: 100%;
             overflow-y: auto;
         }
-
         h2 { margin: 0 0 10px 0; color: #333; text-align: center; font-size: 1.2rem; }
-        
-        .step-box {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 5px;
-        }
-
+        .step-box { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 5px; }
         label { font-weight: bold; display: block; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
+        textarea { width: 100%; height: 100px; border: 1px solid #ccc; border-radius: 6px; padding: 10px; font-family: inherit; resize: none; box-sizing: border-box; }
         
-        textarea {
-            width: 100%;
-            height: 100px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 10px;
-            font-family: inherit;
-            resize: none;
-            box-sizing: border-box;
-        }
-
-        /* 按钮样式 */
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: transform 0.1s;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .btn:active { transform: scale(0.98); }
+        /* 按钮 */
+        .btn { padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; box-sizing: border-box; }
         .btn-primary { background: #007bff; color: white; }
         .btn-success { background: #28a745; color: white; }
         .btn-danger { background: #dc3545; color: white; }
         .btn-secondary { background: #6c757d; color: white; }
 
-        /* --- 打点工作台专用样式 --- */
-        #workbench {
-            display: none;
-            flex-direction: column;
-            background: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            height: 100%; /* 占满屏幕 */
-        }
+        /* 工作台 */
+        #workbench { display: none; flex-direction: column; background: #2c3e50; color: white; padding: 15px; border-radius: 8px; text-align: center; height: 100%; }
+        .workbench-header { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
+        .workbench-header button { padding: 8px 12px; font-size: 14px; width: auto; }
+        
+        .text-display { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px; }
+        #current-line { font-size: 1.4rem; font-weight: bold; margin: 10px 0; color: #f1c40f; line-height: 1.4; }
+        #next-line { font-size: 1rem; color: #95a5a6; }
 
-        /* 顶部控制栏 */
-        .workbench-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .workbench-header button {
-            padding: 8px 12px;
-            font-size: 14px;
-            width: auto;
-        }
-
-        /* 文本显示区 */
-        .text-display {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        #current-line {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #f1c40f;
-            line-height: 1.4;
-        }
-        #next-line {
-            font-size: 1rem;
-            color: #95a5a6;
-        }
-
-        /* 巨大的触摸按钮 (手机核心) */
+        /* 触摸板 */
         #tap-pad {
             width: 100%;
-            height: 180px; /* 足够大的点击区域 */
+            height: 180px;
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
@@ -132,33 +67,34 @@
             box-shadow: 0 6px 0 #1a5276;
             margin-bottom: 10px;
             cursor: pointer;
-            user-select: none; /* 防止长按选中文字 */
-            -webkit-tap-highlight-color: transparent;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent; 
+            touch-action: manipulation; /* 优化触摸响应 */
         }
-        #tap-pad:active {
-            transform: translateY(6px);
-            box-shadow: none;
-        }
-        #tap-pad small {
-            font-size: 14px;
-            opacity: 0.8;
-            font-weight: normal;
-            margin-top: 5px;
-        }
+        #tap-pad:active { transform: translateY(6px); box-shadow: none; }
 
-        /* 结果区域 */
         #result-area { display: none; }
+        
+        /* 状态日志显示 (新增) */
+        #status-log {
+            font-size: 12px;
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 5px;
+            min-height: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container" id="setup-phase">
-        <h2>🛠️ 字幕打点工具 (V3.0 Mobile)</h2>
+        <h2>🛠️ 字幕打点工具 (修复版)</h2>
         
         <div class="step-box">
             <label>1. 上传音频:</label>
             <input type="file" id="audioFile" accept="audio/*" style="font-size: 16px;">
-            <audio id="audio-player" style="display:none;"></audio>
+            <div id="audio-status" style="font-size:12px; color:#28a745; margin-top:5px;"></div>
+            <audio id="audio-player" style="display:none;" playsinline webkit-playsinline></audio>
         </div>
 
         <div class="step-box" style="flex-grow:1;">
@@ -166,7 +102,8 @@
             <textarea id="rawText" placeholder="粘贴你的文本...&#10;Line 1&#10;Line 2" style="height: 100%;"></textarea>
         </div>
 
-        <button class="btn btn-primary" onclick="startTagging()">开始打点 (Start)</button>
+        <button class="btn btn-primary" onclick="tryStartTagging()">开始打点 (Start)</button>
+        <div id="status-log"></div>
     </div>
 
     <div class="container" id="workbench">
@@ -176,36 +113,4 @@
         </div>
 
         <div class="text-display">
-            <div style="font-size: 12px; color: #ccc;">下一句 preview:</div>
-            <div id="next-line">...</div>
-            
-            <div style="font-size: 12px; color: #ccc; margin-top:20px;">Waiting for audio:</div>
-            <div id="current-line">准备就绪...</div>
-        </div>
-
-        <button id="tap-pad" ontouchstart="handleTap(event)" onmousedown="handleTap(event)">
-            👋 点此处标记
-            <small>(或按空格键)</small>
-        </button>
-        
-        <div id="progress-info" style="font-size:12px; color:#aaa;">进度: 0 / 0</div>
-    </div>
-
-    <div class="container" id="result-area">
-        <h2>🎉 生成完成!</h2>
-        <textarea id="final-output" style="flex-grow:1; margin-bottom:10px;"></textarea>
-        <button class="btn btn-primary" onclick="copyToClipboard()">复制全部内容</button>
-        <button class="btn btn-secondary" onclick="resetTool()" style="margin-top:10px;">制作下一个</button>
-    </div>
-
-    <script>
-        let lines = [];
-        let currentIndex = 0;
-        let results = [];
-        const audioPlayer = document.getElementById('audio-player');
-        
-        // 界面元素
-        const setupPhase = document.getElementById('setup-phase');
-        const workbench = document.getElementById('workbench');
-        const resultArea = document.getElementById('result-area');
-        const currentLineEl = document.
+            <div style
