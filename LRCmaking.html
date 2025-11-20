@@ -118,10 +118,19 @@
         <button class="btn btn-primary" onclick="startTagging()">开始打点模式 (Start)</button>
     </div>
 
-    <div class="container" id="workbench">
-        <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-            <span>按 <strong>[空格键]</strong> 标记当前行时间</span>
-            <button class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="resetTool()">重置</button>
+   <div class="container" id="workbench">
+        <div style="width:100%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <span>按 <strong>[空格键]</strong> 标记</span>
+            
+            <div>
+                <button class="btn" onclick="finishTagging()" style="background:#28a745; color:white; margin-right:5px;">
+                    💾 提前保存
+                </button>
+                
+                <button class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="resetTool()">
+                    重置
+                </button>
+            </div>
         </div>
 
         <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
