@@ -1,2 +1,2 @@
-CE = Comprehensive English
+CE = Comprehensive English<br>
 W = Week
