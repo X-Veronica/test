@@ -2,7 +2,7 @@
 
 ## <font color="#8B4513">综英4</font> 
 点击这里查看：  
-[词汇List1-4复习](https://x-veronica.github.io/Vocabulary_Self_Check/25-26T2/CEIV-review-week3.html)
+[词汇List1-4复习](./25-26T2/CEIV-review-week3.html)
 
 <br>
 <br>
