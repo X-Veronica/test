@@ -2,7 +2,8 @@
 
 ## <font color="#8B4513">综英4</font> 
 点击这里查看：  
-[词汇List1-4复习](./25-26T2/CEIV-review-week3.html)
+[词汇List1-4复习](./25-26T2/CEIV-review-week3.html)  
+[词汇List5-8复习](./25-26T2/CEIV-review-week6.html)  
 
 <br>
 <br>
