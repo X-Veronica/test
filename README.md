@@ -13,7 +13,8 @@
 ## <font color="#8B4513">综英2</font>
 点击这里查看：  
 [第2-3周词汇复习](./25-26T2/CEII-review-week3.html)  
-[第4-5周词汇复习](./25-26T2/CEII-review-week6.html)
+[第4-5周词汇复习](./25-26T2/CEII-review-week6.html)  
+[第6-9周词汇复习](./25-26T2/CEII-review-week9.html)
 <br>
 
 
