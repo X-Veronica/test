@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEII Review (Week 3)</title>
+    <title>CEII Mid-term makeup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles to enhance Tailwind defaults and ensure responsiveness */
@@ -307,7 +307,7 @@
   { "word": "overwhelming", "definition": "压倒性的" },
   { "word": "eventually", "definition": "最终；终于" },
   { "word": "neutral", "definition": "中立的" },
-  { "word": "prior to sth", "definition": "在……之前" },
+  { "word": "prior to sth", "definition": "在……之前" }
     ];
 
     let selectedWord = null; 
@@ -315,8 +315,8 @@
     let quizStartTime; 
     let quizEndTime; 
     let timerInterval; 
-    const totalWords = 15; // 每次测验的单词量
-    const totalTime = 240; // 测验总时间为 4 分钟 (240 秒)
+    const totalWords = 10; // 每次测验的单词量
+    const totalTime = 120; // 测验总时间为 2 分钟 (120 秒)
     let remainingTime = totalTime; 
     let quizActive = false; 
     let nameInput = document.getElementById('studentName'); 
@@ -335,9 +335,9 @@
         document.getElementById('submitButton').disabled = true; // Disable submit button initially
 
         // Set current date heading
-        document.getElementById('dateHeading').textContent = 'CEII Review (Week 3)';
+        document.getElementById('dateHeading').textContent = 'CEII Mid-term makeup';
 
-        // Randomly select 15 words and their definitions
+        // Randomly select 10 words and their definitions
         const selectedWordsData = shuffleArray(vocabulary).slice(0, totalWords); // 使用 totalWords 常量
         wordsInCurrentQuiz = selectedWordsData; 
         const correctDefinitionsData = selectedWordsData.map(item => item.definition);
@@ -348,7 +348,7 @@
             .slice(0, 0)
             .map(item => item.definition);
 
-        // Combine all definitions (15 correct + 0 distractors) and shuffle them
+        // Combine all definitions (10 correct + 0 distractors) and shuffle them
         const allDefinitions = shuffleArray([...correctDefinitionsData, ...extraDefinitionsData]);
 
         // Display words in the word column
